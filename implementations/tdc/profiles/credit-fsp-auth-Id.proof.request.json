@@ -1,0 +1,43 @@
+{
+  "DEFAULT": {
+    "comment":"A proof on the Credit.FSP.Auth.Id credential to prove a FSP is part of the system",
+    "proof_request":{
+      "name":"Credit.FSP.Auth.Id",
+      "version":"1.0.0",
+      "requested_attributes":{
+        "fspName":{
+          "name":"fspName",
+          "restrictions": []
+        },
+        "craFSPId":{
+          "name":"craFSPId",
+          "restrictions": []
+        },
+        "credentialType":{
+          "name":"credentialType",
+          "restrictions": []
+        },
+        "issueDate":{
+          "name":"issueDate",
+          "restrictions": []
+        }
+      },
+      "requested_predicates":{}
+    }
+  },
+  "LOCAL": {
+
+  },
+  "DEV": {
+
+  },
+  "QA": {
+
+  },
+  "SAND": {
+
+  },
+  "PROD": {
+
+  }
+}

@@ -1,0 +1,23 @@
+{
+    "DEFAULT": {
+        "agent_id": "fsp-agent",
+        "label": "Community Bank",
+        "image_url": "https://i.imgur.com/eN3k0ZF.png",
+        "institution": "fsp"
+    },
+    "LOCAL": {
+        "did": "PCiwvfeVMQqvPrZmPnJGpu"
+    },
+    "DEV": {
+        "did": "N9MJER3x3fVRu7NUR8xWKq"
+    },
+    "QA": {
+        "did": "SPixsThqYJY5WnXLFbD49o"
+    },
+    "SAND": {
+        "did": "FB5P6Au1zitnVhnTrZTUgv"
+    },
+    "PROD": {
+
+    }
+}

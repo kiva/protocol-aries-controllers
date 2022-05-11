@@ -1,0 +1,91 @@
+# Spins up all controllers in implementations
+#
+version: '3.5'
+
+networks:
+    agency-network:
+      name: agency-network
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+          -
+            subnet: 10.0.0.0/24
+
+services:
+    protocol-fsp-db:
+        image: postgres:11
+        container_name: protocol-fsp-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        networks:
+            - agency-network
+        tty: true
+        environment:
+            - POSTGRES_DB=tx_system
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - POSTGRES_PORT=5432
+
+    protocol-tdc-db:
+        image: postgres:11
+        container_name: protocol-tdc-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        networks:
+            - agency-network
+        tty: true
+        environment:
+            - POSTGRES_DB=tx_system
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - POSTGRES_PORT=5432
+
+    protocol-identity-db:
+        image: postgres:11
+        container_name: protocol-identity-db
+        command: postgres
+        volumes:
+            - ./implementations/ncra/identity_db/insert-scripts:/insert-scripts
+            - ./implementations/ncra/identity_db/create-scripts:/docker-entrypoint-initdb.d/
+        shm_size: '2gb'
+        env_file:
+            - ./implementations/ncra/.env
+        networks:
+            - agency-network
+        depends_on:
+            - kiva-controller
+        tty: true
+
+    fsp-controller:
+        env_file:
+            - ./implementations/fsp/.env
+        build:
+            context: ./implementations/fsp
+            dockerfile: Dockerfile.production
+        image: fsp-controller
+        container_name: fsp-controller
+        working_dir: /www
+        ports:
+            - "3013:3013"
+        networks:
+            - agency-network
+        depends_on:
+            - ncra-controller
+            - protocol-fsp-db
+        tty: true
+
+    tdc-controller:
+        env_file:
+            - implementations/tdc/.env
+        build:
+            context: implementations/tdc
+            dockerfile: Dockerfile.production
+        image: tdc-controller
+        container_name: tdc-controller
+        working_dir: /www
+        ports:
+            - "3015:3015"
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-tdc-db
+        tty: true

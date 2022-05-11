@@ -1,0 +1,47 @@
+{
+  "DEFAULT": {
+    "comment":"A proof on the Credit.FSP.Grant credential to prove a FSP is part of the system",
+    "proof_request":{
+      "name":"Credit.FSP.Grant",
+      "version":"1.0.0",
+      "requested_attributes":{
+        "craId":{
+          "name":"craId",
+          "restrictions": []
+        },
+        "fspId":{
+          "name":"craId",
+          "restrictions": []
+        },
+        "craFSPId":{
+          "name":"craFSPId",
+          "restrictions": []
+        },
+        "issueDate":{
+          "name":"issueDate",
+          "restrictions": []
+        },
+        "permission":{
+          "name":"permission",
+          "restrictions": []
+        }
+      },
+      "requested_predicates":{}
+    }
+  },
+  "LOCAL": {
+
+  },
+  "DEV": {
+
+  },
+  "QA": {
+
+  },
+  "SAND": {
+
+  },
+  "PROD": {
+
+  }
+}

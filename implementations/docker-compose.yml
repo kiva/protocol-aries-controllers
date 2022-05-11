@@ -1,0 +1,79 @@
+# Spins up all implementation controllers for development purposes
+#
+version: '3.5'
+
+networks:
+    agency-network:
+        external: true
+
+services:
+    protocol-fsp-db:
+        image: postgres:11
+        container_name: protocol-fsp-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        networks:
+            - agency-network
+        tty: true
+        environment:
+            - POSTGRES_DB=tx_system
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - POSTGRES_PORT=5432
+
+    protocol-tdc-db:
+        image: postgres:11
+        container_name: protocol-tdc-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        networks:
+            - agency-network
+        tty: true
+        environment:
+            - POSTGRES_DB=tx_system
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - POSTGRES_PORT=5432
+
+    fsp-controller:
+        env_file:
+            - fsp/.env
+        build:
+            context: ./fsp
+            dockerfile: Dockerfile
+        command: npm run start:debug
+        image: fsp-controller
+        container_name: fsp-controller
+        working_dir: /www
+        ports:
+            - "3013:3013"
+        volumes:
+            - ./fsp/:/www
+            # For dev purposes this simulates npm-link, since symbolic links on the mac won't work in the docker container
+            # - ../../aries-controller/dist:/www/node_modules/aries-controller
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-fsp-db
+            - kiva-controller
+        tty: true
+
+    tdc-controller:
+        env_file:
+            - tdc/.env
+        build:
+            context: ./tdc
+            dockerfile: Dockerfile
+        command: npm run start:debug
+        image: tdc-controller
+        container_name: tdc-controller
+        working_dir: /www
+        ports:
+            - "3015:3015"
+        volumes:
+            - ./tdc/:/www
+            # For dev purposes this simulates npm-link, since symbolic links on the mac won't work in the docker container
+            # - ../../aries-controller/dist:/www/node_modules/aries-controller
+        depends_on:
+            -   protocol-tdc-db
+        networks:
+            - agency-network
+        tty: true

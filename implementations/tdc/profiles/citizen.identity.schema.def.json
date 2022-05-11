@@ -1,0 +1,39 @@
+{
+    "DEFAULT": {
+        "schema_name": "citizen.identity",
+        "comment": "A temporary credential to prove a citizen exists",
+        "credential_proposal": {
+            "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview"
+        },
+        "support_revocation": false,
+        "auto_remove": true,
+        "attributes": [
+            "firstName",
+            "lastName",
+            "citizenId"
+        ]
+    },
+    "LOCAL": {
+        "schema_issuer_did": "7ZyGpydiVWANHdMxRHziHK",
+        "schema_version": "1.0.0",
+        "schema_id": "7ZyGpydiVWANHdMxRHziHK:2:citizen.identity:1.0.0"
+    },
+    "DEV": {
+        "schema_issuer_did": "McP1XxbNgbWL1ZNgQQB9YL",
+        "schema_version": "1.0.0",
+        "schema_id": "McP1XxbNgbWL1ZNgQQB9YL:2:citizen.identity:1.0.0"
+    },
+    "QA": {
+        "schema_issuer_did": "McP1XxbNgbWL1ZNgQQB9YL",
+        "schema_version": "1.0.0",
+        "schema_id": "McP1XxbNgbWL1ZNgQQB9YL:2:citizen.identity:1.0.0"
+    },
+    "SAND": {
+        "schema_issuer_did": "3bymcHbJGvAG77FuAB3hZh",
+        "schema_version": "1.0.0",
+        "schema_id": "3bymcHbJGvAG77FuAB3hZh:2:citizen.identity:1.0.0"
+    },
+    "PROD": {
+
+    }
+}

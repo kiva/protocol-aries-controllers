@@ -1,0 +1,47 @@
+{
+  "DEFAULT": {
+    "comment":"A proof on the Credit.TRO.Grant credential to prove a TRO (was cra) is part of the system",
+    "proof_request":{
+      "name":"Credit.TRO.Grant",
+      "version":"1.0.0",
+      "requested_attributes":{
+        "craId":{
+          "name":"craId",
+          "restrictions": []
+        },
+        "fspId":{
+          "name":"craId",
+          "restrictions": []
+        },
+        "craFSPId":{
+          "name":"craFSPId",
+          "restrictions": []
+        },
+        "issueDate":{
+          "name":"issueDate",
+          "restrictions": []
+        },
+        "permission":{
+          "name":"permission",
+          "restrictions": []
+        }
+      },
+      "requested_predicates":{}
+    }
+  },
+  "LOCAL": {
+
+  },
+  "DEV": {
+
+  },
+  "QA": {
+
+  },
+  "SAND": {
+
+  },
+  "PROD": {
+
+  }
+}

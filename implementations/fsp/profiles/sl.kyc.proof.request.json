@@ -1,0 +1,548 @@
+{
+    "DEFAULT": {
+        "comment":"KYC proof for the Sierra Leone financial sector"
+    },
+    "LOCAL": {
+        "proof_request":{
+            "name":"KYC",
+            "version":"1.0",
+            "requested_attributes":{
+                "nationalId":{
+                    "name":"nationalId",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "nationalIssueDate":{
+                    "name":"nationalIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "voterId":{
+                    "name":"voterId",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "voterIssueDate":{
+                    "name":"voterIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "middleName":{
+                    "name":"middleName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "gender":{
+                    "name":"gender",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "birthDate":{
+                    "name":"birthDate",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "birthPlace":{
+                    "name":"birthPlace",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "residentialAddress":{
+                    "name":"residentialAddress",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "permanentAddress":{
+                    "name":"permanentAddress",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "motherFirstName":{
+                    "name":"motherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "motherLastName":{
+                    "name":"motherLastName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "fatherFirstName":{
+                    "name":"fatherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "fatherLastName":{
+                    "name":"fatherLastName",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "occupation":{
+                    "name":"occupation",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "maritalStatus":{
+                    "name":"maritalStatus",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                },
+                "signature~attach":{
+                    "name":"signature~attach",
+                    "restrictions": [{
+                        "issuer_did":"XTv4YCzYj8jqZgL1wVMGGL"
+                    }]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "DEV": {
+        "proof_request":{
+            "name":"KYC",
+            "version":"1.0",
+            "requested_attributes":{
+                "nationalId":{
+                    "name":"nationalId",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "nationalIssueDate":{
+                    "name":"nationalIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "voterId":{
+                    "name":"voterId",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "voterIssueDate":{
+                    "name":"voterIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "middleName":{
+                    "name":"middleName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "gender":{
+                    "name":"gender",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "birthDate":{
+                    "name":"birthDate",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "birthPlace":{
+                    "name":"birthPlace",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "residentialAddress":{
+                    "name":"residentialAddress",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "permanentAddress":{
+                    "name":"permanentAddress",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "motherFirstName":{
+                    "name":"motherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "motherLastName":{
+                    "name":"motherLastName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "fatherFirstName":{
+                    "name":"fatherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "fatherLastName":{
+                    "name":"fatherLastName",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "occupation":{
+                    "name":"occupation",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "maritalStatus":{
+                    "name":"maritalStatus",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                },
+                "signature~attach":{
+                    "name":"signature~attach",
+                    "restrictions": [{
+                        "issuer_did":"RcR5kSj5tuBM1q8kTiiZbd"
+                    }]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "QA": {
+        "proof_request":{
+            "name":"KYC",
+            "version":"1.0",
+            "requested_attributes":{
+                "nationalId":{
+                    "name":"nationalId",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "nationalIssueDate":{
+                    "name":"nationalIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "voterId":{
+                    "name":"voterId",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "voterIssueDate":{
+                    "name":"voterIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "middleName":{
+                    "name":"middleName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "gender":{
+                    "name":"gender",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "birthDate":{
+                    "name":"birthDate",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "birthPlace":{
+                    "name":"birthPlace",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "residentialAddress":{
+                    "name":"residentialAddress",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "permanentAddress":{
+                    "name":"permanentAddress",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "motherFirstName":{
+                    "name":"motherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "motherLastName":{
+                    "name":"motherLastName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "fatherFirstName":{
+                    "name":"fatherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "fatherLastName":{
+                    "name":"fatherLastName",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "occupation":{
+                    "name":"occupation",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "maritalStatus":{
+                    "name":"maritalStatus",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                },
+                "signature~attach":{
+                    "name":"signature~attach",
+                    "restrictions": [{
+                        "issuer_did":"6Jsj4gmrYib3YDufowgx2N"
+                    }]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "SAND": {
+        "proof_request":{
+            "name":"KYC",
+            "version":"1.0",
+            "requested_attributes":{
+                "nationalId":{
+                    "name":"nationalId",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "nationalIssueDate":{
+                    "name":"nationalIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "voterId":{
+                    "name":"voterId",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "voterIssueDate":{
+                    "name":"voterIssueDate",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "middleName":{
+                    "name":"middleName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "gender":{
+                    "name":"gender",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "birthDate":{
+                    "name":"birthDate",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "birthPlace":{
+                    "name":"birthPlace",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "residentialAddress":{
+                    "name":"residentialAddress",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "permanentAddress":{
+                    "name":"permanentAddress",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "motherFirstName":{
+                    "name":"motherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "motherLastName":{
+                    "name":"motherLastName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "fatherFirstName":{
+                    "name":"fatherFirstName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "fatherLastName":{
+                    "name":"fatherLastName",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "occupation":{
+                    "name":"occupation",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "maritalStatus":{
+                    "name":"maritalStatus",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                },
+                "signature~attach":{
+                    "name":"signature~attach",
+                    "restrictions": [{
+                        "issuer_did":"d49msToBfLewc96BvTFfJ"
+                    }]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "PROD": {
+
+    }
+}

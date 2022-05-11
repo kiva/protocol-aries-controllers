@@ -1,0 +1,28 @@
+# Spin up the fsp controller for development purposes
+#
+version: '3.5'
+
+networks:
+    agency-network:
+        external: true
+
+services:
+    fsp-controller:
+        env_file:
+            - .env
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: npm run start:debug
+        image: fsp-controller
+        container_name: fsp-controller
+        working_dir: /www
+        ports:
+            - "3013:3013"
+        volumes:
+            - ./:/www
+            # For dev purposes this simulates npm-link, since symbolic links on the mac won't work in the docker container
+            #- ../../../aries-controller/dist:/www/node_modules/aries-controller
+        networks:
+            - agency-network
+        tty: true

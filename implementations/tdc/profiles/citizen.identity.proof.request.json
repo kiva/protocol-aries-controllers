@@ -1,0 +1,39 @@
+{
+    "DEFAULT": {
+        "comment":"A proof on a temporary citizen.identity credential to prove a citizen or fsp exists",
+        "proof_request":{
+            "name":"citizen.identity",
+            "version":"1.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": []
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": []
+                },
+                "citizenId":{
+                    "name":"citizenId",
+                    "restrictions": []
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "LOCAL": {
+        
+    },
+    "DEV": {
+
+    },
+    "QA": {
+
+    },
+    "SAND": {
+
+    },
+    "PROD": {
+
+    }
+}

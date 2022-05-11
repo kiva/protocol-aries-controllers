@@ -1,0 +1,27 @@
+{
+    "DEFAULT": {
+        "agent_id": "tdc-agent",
+        "label": "Transaction Data Coordinator",
+        "image_url": "http://www-kiva-org.global.ssl.fastly.net/cms/kiva_logo_2.png",
+        "institution": "tdc"
+    },
+    "LOCAL": {
+        "did": "7ZyGpydiVWANHdMxRHziHK",
+        "verkey": "4aeDkGuomaDzytby2YWM9ykGxy3eieEhurd3Q7QYT4hd"
+    },
+    "DEV": {
+        "did": "McP1XxbNgbWL1ZNgQQB9YL",
+        "verkey": "4aeDkGuomaDzytby2YWM9ykGxy3eieEhurd3Q7QYT4hd"
+    },
+    "QA": {
+        "did": "McP1XxbNgbWL1ZNgQQB9YL",
+        "verkey": "4aeDkGuomaDzytby2YWM9ykGxy3eieEhurd3Q7QYT4hd"
+    },
+    "SAND": {
+        "did": "3bymcHbJGvAG77FuAB3hZh",
+        "verkey": "4aeDkGuomaDzytby2YWM9ykGxy3eieEhurd3Q7QYT4hd"
+    },
+    "PROD": {
+
+    }
+}

@@ -1,0 +1,87 @@
+{
+    "DEFAULT": {
+        "comment":"Unrestricted proof for note credentials",
+        "proof_request":{
+            "name":"UnrestrictedNote",
+            "version":"0.0.1",
+            "requested_attributes":{
+                "code":{
+                    "name":"code",
+                    "restrictions": []
+                },
+                "value":{
+                    "name":"value",
+                    "restrictions": []
+                },
+                "issued":{
+                    "name":"issued",
+                    "restrictions": []
+                },
+                "expiry":{
+                    "name":"expiry",
+                    "restrictions": []
+                },
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": []
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": []
+                },
+                "companyEmail":{
+                    "name":"companyEmail",
+                    "restrictions": []
+                },
+                "hireDate":{
+                    "name":"hireDate",
+                    "restrictions": []
+                },
+                "currentTitle":{
+                    "name":"currentTitle",
+                    "restrictions": []
+                },
+                "team":{
+                    "name":"team",
+                    "restrictions": []
+                },
+                "officeLocation":{
+                    "name":"officeLocation",
+                    "restrictions": []
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": []
+                },
+                "type":{
+                    "name":"type",
+                    "restrictions": []
+                },
+                "endDate":{
+                    "name":"endDate",
+                    "restrictions": []
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": []
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "LOCAL": {
+        
+    },
+    "DEV": {
+
+    },
+    "QA": {
+
+    },
+    "SAND": {
+
+    },
+    "PROD": {
+
+    }
+}

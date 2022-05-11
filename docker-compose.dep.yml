@@ -1,0 +1,252 @@
+# Spins up all the external dependencies for the controllers
+# This copies a lot from the protocol integration tests but allows us to identify problems with our implementations faster
+#
+version: '3.5'
+
+networks:
+    agency-network:
+      name: agency-network
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+          -
+            subnet: 10.0.0.0/24
+
+services:
+    # External service dependencies for full test
+    protocol-indy-pool:
+        build:
+            context: integration_tests
+            dockerfile: resources/indy-pool-kiva.dockerfile
+            args:
+                pool_ip: '10.0.0.2'
+        image: protocol-indy-pool
+        container_name: protocol-indy-pool
+        working_dir: /home/indy
+        ports:
+            - "9701:9701"
+            - "9702:9702"
+            - "9703:9703"
+            - "9704:9704"
+            - "9705:9705"
+            - "9706:9706"
+            - "9707:9707"
+            - "9708:9708"
+        networks:
+            agency-network:
+                ipv4_address: 10.0.0.2
+
+    aries-guardianship-agency:
+        image: kivaprotocol/aries-guardianship-agency:latest
+        container_name: aries-guardianship-agency
+        working_dir: /www
+        ports:
+            - "3010:3010"
+        expose:
+            - "3010"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-indy-pool
+        tty: true
+        privileged: true
+        environment:
+            - NODE_ENV=LOCAL
+            - AGENT_GUARD_ENABLED=false
+            - MULTI_CONTROLLER=true
+            - PUBLIC_URL=http://aries-guardianship-agency:3010
+            - WALLET_DB_HOST=protocol-identity-wallet-db
+            - WALLET_DB_PORT=5432
+            - WALLET_DB_USER=postgres
+            - WALLET_DB_PASS=dbpass
+            - WALLET_DB_ADMIN_USER=postgres
+            - WALLET_DB_ADMIN_PASS=dbpass
+            - WALLET_DB=wallets
+            - TAILS_URL=http://tails-server:6543
+            - ACAPY_ADMIN_API_KEY=adminApiKey
+
+    protocol-identity-wallet-db:
+        image: postgres:11
+        container_name: protocol-identity-wallet-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        volumes:
+            - ./integration_tests/resources/identity_wallet:/docker-entrypoint-initdb.d/
+        networks:
+            - agency-network
+        depends_on:
+            - aries-guardianship-agency
+        tty: true
+        environment:
+            - POSTGRES_HOST=protocol-identity-wallet-db
+            - POSTGRES_DB=wallets
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=dbpass
+
+    protocol-auth-db:
+        image: postgres:11
+        container_name: protocol-auth-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-identity-wallet-db
+        tty: true
+        environment:
+            - POSTGRES_DB=authdb
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - POSTGRES_PORT=5432
+
+    aries-key-guardian:
+        image: kivaprotocol/aries-key-guardian:latest
+        container_name: aries-key-guardian
+        working_dir: /www
+        ports:
+            - "3005:3003"
+        expose:
+            - "3005"
+        networks:
+            - agency-network
+        tty: true
+        depends_on:
+            - protocol-auth-db
+        environment:
+            - NODE_ENV=LOCAL
+            - HASH_PEPPER=SOME_PEPPER
+            - POSTGRES_DB=authdb
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - POSTGRES_PORT=5432
+            - POSTGRES_HOST=protocol-auth-db
+
+    protocol-identity-template-db:
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        image: postgres:11
+        container_name: protocol-identity-template-db
+        restart: always
+        volumes:
+          - ./integration_tests/resources/identity_template:/docker-entrypoint-initdb.d/
+        networks:
+          - agency-network
+        depends_on:
+          - aries-key-guardian
+        tty: true
+        environment:
+            - POSTGRES_HOST=protocol-identity-template-db
+            - POSTGRES_DB=identitytemplatedb
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+
+    protocol-identity-db:
+        image: postgres:11
+        container_name: protocol-identity-db
+        command: postgres
+        volumes:
+            - ./implementations/ncra/identity_db/insert-scripts:/insert-scripts
+            - ./implementations/ncra/identity_db/create-scripts:/docker-entrypoint-initdb.d/
+        shm_size: '2gb'
+        env_file:
+            - ./implementations/ncra/.env
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-identity-template-db
+        tty: true
+
+    protocol-bio-auth-service:
+        image: kivaprotocol/bioauth:latest
+        container_name: protocol-bio-auth-service
+        ports:
+            - "8081:8080"
+        networks:
+            - agency-network
+        depends_on: 
+            - protocol-identity-db
+        tty: true
+        environment:
+            - POSTGRES_HOST=protocol-identity-template-db
+            - POSTGRES_PORT=5432
+            - POSTGRES_DB=identitytemplatedb
+            - POSTGRES_USER=dbuser
+            - POSTGRES_PASSWORD=dbpass
+            - BIOANALYZER_ENABLED=false
+            - BIOANALYZER_SERVICE_URL=http://protocol-bioanalyzer-service:8080
+            - BIOANALYZER_QUALITY_THRESHOLD=30
+            - REPLAY_ATTACK_ENABLED=false
+            - MAX_DIDS=100
+            - HASH_PEPPER=SOME_PEPPER
+
+    tails-server:
+        image: kivaprotocol/tails-server:latest
+        container_name: tails-server
+        ports:
+        - 6543:6543
+        networks:
+        - agency-network
+        depends_on:
+        - protocol-indy-pool
+        environment: 
+            - MSYS_NO_PATHCONV=1
+            - DOCKERHOST=${APPLICATION_URL:-$$(docker run --rm --net=host eclipse/che-ip)}
+            - GENESIS_URL=${GENESIS_URL:-http://$DOCKERHOST:9000/genesis}
+            - STORAGE_PATH=${STORAGE_PATH:-/tmp/tails-files}
+            - LOG_LEVEL=${LOG_LEVEL:-INFO}
+            - TAILS_SERVER_URL=${TAILS_SERVER_URL:-http://$DOCKERHOST:6543}
+        command: >
+            tails-server
+                --host 0.0.0.0
+                --port 6543
+                --storage-path /tmp/tails-files
+                --log-level INFO
+
+    multitenant:
+        image: bcgovimages/aries-cloudagent:py36-1.16-1_0.7.1
+        container_name: multitenant
+        networks:
+          - agency-network
+        depends_on:
+          - protocol-indy-pool
+          - protocol-identity-wallet-db
+          - protocol-bio-auth-service
+          - tails-server
+        ports:
+          - "3020:3020"
+          - "3021:3021"
+        expose: 
+          - "3020"
+          - "3021"
+        volumes:
+          - ./integration_tests/resources/:/home/indy/resources
+        # Have multitenant wait a few seconds until indy ledger is up
+        # Also for some reason inbound transport doesn't work via env args so using commmand line here
+        entrypoint: /bin/bash
+        command: [
+            "-c",
+            "sleep 14;
+            aca-py start \
+            --inbound-transport http '0.0.0.0' 3020"
+        ]
+        environment:
+            - ACAPY_OUTBOUND_TRANSPORT=http
+            - ACAPY_ADMIN=[0.0.0.0,3021]
+            - ACAPY_ENDPOINT=http://multitenant:3020
+            - ACAPY_WEBHOOK_URL=http://aries-guardianship-agency:3010/v1/controller/multitenant
+            - ACAPY_ADMIN_API_KEY=adminApiKey
+            - ACAPY_LABEL=multitenant
+            - ACAPY_WALLET_NAME=multitenant_name
+            - ACAPY_WALLET_KEY=multitenant_key
+            - ACAPY_WALLET_TYPE=indy
+            - ACAPY_WALLET_STORAGE_TYPE=postgres_storage
+            - ACAPY_WALLET_SEED=0000000000000000000000000000Any1
+            - ACAPY_WALLET_STORAGE_CONFIG={"url":"protocol-identity-wallet-db:5432","wallet_scheme":"MultiWalletSingleTable"}
+            - ACAPY_WALLET_STORAGE_CREDS={"account":"postgres","password":"dbpass","admin_account":"postgres","admin_password":"dbpass"}
+            - ACAPY_GENESIS_FILE=/home/indy/resources/pool_transactions_genesis_local_dev
+            - ACAPY_WALLET_LOCAL_DID=true
+            - ACAPY_LOG_LEVEL=info
+            - ACAPY_AUTO_PROVISION=true
+            - ACAPY_MULTITENANT=true
+            - ACAPY_MULTITENANT_ADMIN=true
+            - ACAPY_MULTITENANT_JWT_SECRET=jwtSecret
