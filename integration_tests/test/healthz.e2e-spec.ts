@@ -6,18 +6,6 @@ import request from 'supertest';
  */
 describe('Prod integration test', () => {
 
-    it('Kiva Controller up', () => {
-        return request('http://localhost:3011')
-        .get('/healthz')
-        .expect(200);
-    });
-
-    it('NCRA Controller up', () => {
-        return request('http://localhost:3012')
-        .get('/healthz')
-        .expect(200);
-    });
-
     it('FSP Controller up', () => {
         return request('http://localhost:3013')
         .get('/healthz')
