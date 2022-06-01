@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Get, Headers } from '@nestjs/common';
 import { ApiTags, ApiHeader, ApiResponse } from '@nestjs/swagger';
-import { ProtocolValidationPipe } from 'protocol-common/validation/protocol.validation.pipe';
-import { KycService } from './kyc.service';
-import { KycDto } from './dtos/kyc.dto';
-import { KycResponseDto } from './dtos/kyc.response.dto';
-import { KycSmsDto } from './dtos/kyc.sms.dto';
+import { KycService } from './kyc.service.js';
+import { KycDto } from './dtos/kyc.dto.js';
+import { KycResponseDto } from './dtos/kyc.response.dto.js';
+import { KycSmsDto } from './dtos/kyc.sms.dto.js';
+import { ProtocolValidationPipe } from 'protocol-common/validation';
 
 @ApiTags('kyc')
 @Controller('v2/kyc')

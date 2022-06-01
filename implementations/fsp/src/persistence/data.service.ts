@@ -1,9 +1,9 @@
 import { InjectConnection } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { TdcGrants } from './tdc.grants';
-import { Transaction } from './transaction';
-import { RequestedReport } from './requested.report';
+import { TdcGrants } from './tdc.grants.js';
+import { Transaction } from './transaction.js';
+import { RequestedReport } from './requested.report.js';
 
 
 /*
@@ -21,7 +21,7 @@ export class DataService {
     }
 
     public async getTDCGrantRecord(key: string): Promise<TdcGrants> {
-        return await this.connection.getRepository(TdcGrants).findOne( { one_time_key: key});
+        return await this.connection.getRepository(TdcGrants).findOne({ where: { one_time_key: key} });
     }
 
     public async saveTransaction(record: Transaction): Promise<any> {
@@ -29,11 +29,11 @@ export class DataService {
     }
 
     public async getTransaction(key: string): Promise<Transaction> {
-        return await this.connection.getRepository(Transaction).findOne({transaction_id: key});
+        return await this.connection.getRepository(Transaction).findOne({ where: {transaction_id: key} });
     }
 
     public async getReport(key: string): Promise<RequestedReport> {
-        return await this.connection.getRepository(RequestedReport).findOne( {report_id: key});
+        return await this.connection.getRepository(RequestedReport).findOne( { where: {report_id: key} });
     }
 
     public  async saveRequestedReport(record: RequestedReport): Promise<any> {

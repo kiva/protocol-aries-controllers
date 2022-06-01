@@ -1,6 +1,17 @@
-import { IsString, IsNotEmpty, IsArray, IsOptional, IsInt, Min, Max, Length, IsNumberString, ValidateNested } from 'class-validator';
+import {
+    IsString,
+    IsNotEmpty,
+    IsArray,
+    IsOptional,
+    IsInt,
+    Min,
+    Max,
+    Length,
+    IsNumberString,
+    ValidateNested
+} from 'class-validator';
 import { Type } from 'class-transformer';
-import { SearchDto } from './search.dto';
+import { SearchDto } from './search.dto.js';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 /**

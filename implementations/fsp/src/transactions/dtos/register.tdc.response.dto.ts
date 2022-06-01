@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, Max, Min } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class RegisterTdcResponseDto {
     @ApiProperty({

@@ -1,12 +1,12 @@
-import { Controller, Post, Get, Param, Body, Headers } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ProtocolValidationPipe } from 'protocol-common/validation/protocol.validation.pipe';
 import { TransactionService } from './transaction.service';
 import { RegisterTdcDto } from './dtos/register.tdc.dto';
 import { RegisterTdcResponseDto } from './dtos/register.tdc.response.dto';
 import { RegisterOneTimeKeyDto } from './dtos/register.one.time.key.dto';
 import { TransactionReportRequestDto } from './dtos/transaction.report.request.dto';
 import { CreateTransactionDto } from './dtos/create.transaction.dto';
+import { ProtocolValidationPipe } from 'protocol-common/validation';
 
 /**
  * Exposing endpoints the FSP would call to interact with the TDC

@@ -1,31 +1,26 @@
 import { AxiosRequestConfig } from 'axios';
-import { Injectable, Inject, HttpService, Body } from '@nestjs/common';
-import { Logger } from 'protocol-common/logger';
-import { AgentGovernance, ControllerCallback } from 'aries-controller/controller/agent.governance';
-import { Topics } from 'aries-controller/controller/handler/topics';
-import { AgentService } from 'aries-controller/agent/agent.service';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
-import { RegisterTdcDto } from './dtos/register.tdc.dto';
-import { RegisterTdcResponseDto } from './dtos/register.tdc.response.dto';
-import { RegisterOneTimeKeyDto } from './dtos/register.one.time.key.dto';
-import { TransactionReportRequestDto } from './dtos/transaction.report.request.dto';
-import { CreateTransactionDto } from './dtos/create.transaction.dto';
-import { DataService } from '../persistence/data.service';
-import { TdcGrants } from '../persistence/tdc.grants';
-import { Transaction } from '../persistence/transaction';
-import { RequestedReport } from '../persistence/requested.report';
-import { TdcGrant } from 'aries-controller/agent/messaging/tdc.grant';
+import { Injectable, Inject, Logger } from '@nestjs/common';
+import { RegisterTdcDto } from './dtos/register.tdc.dto.js';
+import { RegisterTdcResponseDto } from './dtos/register.tdc.response.dto.js';
+import { RegisterOneTimeKeyDto } from './dtos/register.one.time.key.dto.js';
+import { TransactionReportRequestDto } from './dtos/transaction.report.request.dto.js';
+import { CreateTransactionDto } from './dtos/create.transaction.dto.js';
+import { DataService } from '../persistence/data.service.js';
+import { TdcGrants } from '../persistence/tdc.grants.js';
+import { Transaction } from '../persistence/transaction.js';
+import { RequestedReport } from '../persistence/requested.report.js';
+import { ProtocolHttpService } from 'protocol-common';
+import { AgentGovernance, AgentService, ControllerCallback, Topics } from 'aries-controller';
 
 @Injectable()
 export class TransactionService {
-    private readonly http: ProtocolHttpService;
 
-    constructor(@Inject('AGENT_GOVERNANCE') private readonly agentGovernance: AgentGovernance,
-                private readonly agentService: AgentService,
-                private readonly dbAccessor: DataService,
-                httpService: HttpService,
+    constructor(
+      @Inject('AGENT_GOVERNANCE') private readonly agentGovernance: AgentGovernance,
+      private readonly agentService: AgentService,
+      private readonly dbAccessor: DataService,
+      private readonly http: ProtocolHttpService
     ) {
-        this.http = new ProtocolHttpService(httpService);
         agentGovernance.registerHandler('FSP-TX-BASIC', Topics.BASIC_MESSAGES, this.basicMessageHandler);
     }
 
@@ -56,7 +51,7 @@ export class TransactionService {
             switch (data.messageTypeId) {
                 case `grant`:
                     if (data.state === `completed`) {
-                        Logger.info(`received completed grant information.`, data);
+                        Logger.log(`received completed grant information.`, data);
                         const record: TdcGrants = new TdcGrants();
                         record.fsp_id = data.tdcFspId;
                         record.tdc_id = data.tdcTroId;  // TODO: fsp doesn't need this, can be removed
@@ -67,7 +62,7 @@ export class TransactionService {
                     break;
                 case `credit_transaction`:
                     if (data.state === `completed`) {
-                        Logger.info(`transaction accepted by TRO ${data.id}`);
+                        Logger.log(`transaction accepted by TRO ${data.id}`);
                         const record: Transaction = new Transaction();
                         record.transaction_id = data.id;
                         record.fsp_id = data.transaction.fspId;
@@ -103,7 +98,7 @@ export class TransactionService {
         // 1 generate a connection invite from fsp agent
         const connection = await this.agentService.openConnection();
         const url = `${body.tdcEndpoint}/v2/fsp/register`;
-        Logger.info(`FSP created this connection ${connection.connection_id} invitation`, connection);
+        Logger.log(`FSP created this connection ${connection.connection_id} invitation`, connection);
 
         // 2 using body.tdcEndpoint, call: /fsp/register passing in a connection invite
         const data = {
@@ -111,14 +106,14 @@ export class TransactionService {
             identityProfileId: `citizen.identity`,
             invitation: connection.invitation
         };
-        Logger.info(`connecting to TDC ${url} with data`, data);
+        Logger.log(`connecting to TDC ${url} with data`, data);
         const request: AxiosRequestConfig = {
             method: 'POST',
             url,
             data,
         };
         const result = await this.http.requestWithRetry(request);
-        Logger.info(`FSP registering with TDC ${request.url}, results data`, result.data);
+        Logger.log(`FSP registering with TDC ${request.url}, results data`, result.data);
         // TODO do we need to save this information some where
         // TODO will we need to return this information to the caller:  thinking no
         return { connectionData: result.data.connectionData};
@@ -130,7 +125,7 @@ export class TransactionService {
     public async registerOnetimeKey(body: RegisterOneTimeKeyDto): Promise<any> {
         // 2 using body.tdcEndpoint, call: /fsp/register passing in a connection invite
         // todo: replace tdcEndpoint with lookup since we have connection id
-        Logger.info(`FSP sending onetimekey data`, body);
+        Logger.log(`FSP sending onetimekey data`, body);
         const url = `${body.tdcEndpoint}/v2/fsp/register/onetimekey`;
         const data = {
             connectionId: body.connectionId,
@@ -143,7 +138,7 @@ export class TransactionService {
             data,
         };
         const result = await this.http.requestWithRetry(request);
-        Logger.info(`FSP onetimekey with TDC ${request.url}, results data`, result.data);
+        Logger.log(`FSP onetimekey with TDC ${request.url}, results data`, result.data);
         /*
           return onetimekey (aka key), tdcFspId, tdcTroId and state.
           note: tdcTroId needs to be removed
@@ -261,7 +256,7 @@ export class TransactionService {
         // passing the event json
         // TODO: this method could be broken out by each transaction type to reduce complexity for UI
         // TODO: validation of eventType
-        Logger.info(`FSP creating transaction ${body.typeId}`);
+        Logger.log(`FSP creating transaction ${body.typeId}`);
         const url = `${body.tdcEndpoint}/v2/transactions/create`;
         const data = body;
         const request: AxiosRequestConfig = {
@@ -270,7 +265,7 @@ export class TransactionService {
             data,
         };
         const result = await this.http.requestWithRetry(request);
-        Logger.info(`FSP creating transaction ${request.url}, results data `, result.data);
+        Logger.log(`FSP creating transaction ${request.url}, results data `, result.data);
         return result.data;
     }
 
@@ -279,7 +274,7 @@ export class TransactionService {
      * @param body: TransactionReportRequestDto
      */
     public async  getTransactionReport(body: TransactionReportRequestDto): Promise<any> {
-        Logger.info(`FSP request transaction report data`, body);
+        Logger.log(`FSP request transaction report data`, body);
         const url = `${body.tdcEndpoint}/v2/transactions/report`;
         const data = {
             fspTdcId: body.fspTdcId,
@@ -293,7 +288,7 @@ export class TransactionService {
             data,
         };
         const result = await this.http.requestWithRetry(request);
-        Logger.info(`FSP transaction report from TDC ${request.url}`);
+        Logger.log(`FSP transaction report from TDC ${request.url}`);
         return result.data;
     }
 }

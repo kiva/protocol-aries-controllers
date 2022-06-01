@@ -1,10 +1,9 @@
-import { HttpModule, forwardRef, Module } from '@nestjs/common';
-import { AgentModule } from 'aries-controller/agent/agent.module';
-import { AgentGovernanceFactory } from 'aries-controller/controller/agent.governance.factory';
-import { AgentService } from 'aries-controller/agent/agent.service';
-import { TransactionController } from './transaction.controller';
-import { TransactionService } from './transaction.service';
-import { DataService } from '../persistence/data.service';
+import { forwardRef, Module } from '@nestjs/common';
+import { TransactionController } from './transaction.controller.js';
+import { TransactionService } from './transaction.service.js';
+import { DataService } from '../persistence/data.service.js';
+import { AgentGovernanceFactory, AgentModule } from 'aries-controller';
+import { ProtocolHttpModule } from 'protocol-common';
 
 /**
  *
@@ -12,7 +11,7 @@ import { DataService } from '../persistence/data.service';
 @Module({
     imports: [
         forwardRef(() => AgentModule),
-        HttpModule
+        ProtocolHttpModule
     ],
     controllers: [TransactionController],
     providers: [

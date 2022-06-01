@@ -1,16 +1,11 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
 import { AxiosRequestConfig } from 'axios';
-import { Logger } from 'protocol-common/logger';
-import { ProtocolException } from 'protocol-common/protocol.exception';
-import { ProtocolErrorCode } from 'protocol-common/protocol.errorcode';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
-import { RequestContext } from 'protocol-common/http-context/request.context';
-import { Constants } from 'protocol-common/constants';
-import { KycDto } from './dtos/kyc.dto';
-import { KycResponseDto } from './dtos/kyc.response.dto';
-import { KycSmsDto } from './dtos/kyc.sms.dto';
-import { VerifierService } from 'aries-controller/verifier/verifier.service';
+import { KycDto } from './dtos/kyc.dto.js';
+import { KycResponseDto } from './dtos/kyc.response.dto.js';
+import { KycSmsDto } from './dtos/kyc.sms.dto.js';
+import { Constants, ProtocolErrorCode, ProtocolException, ProtocolHttpService, RequestContext } from 'protocol-common';
+import { VerifierService } from 'aries-controller';
 
 /**
  * Contain logic specific to KYC in Sierra Leone such as:
@@ -22,17 +17,13 @@ import { VerifierService } from 'aries-controller/verifier/verifier.service';
 @Injectable()
 export class KycService {
 
-    private readonly http: ProtocolHttpService;
-
     /**
      * Wraps the injected HttpService in a ProtocolHttpService
      */
     constructor(
-        httpService: HttpService,
-        private readonly verifierService: VerifierService,
-    ) {
-        this.http = new ProtocolHttpService(httpService);
-    }
+      private readonly http: ProtocolHttpService,
+      private readonly verifierService: VerifierService,
+    ) {}
 
     /**
      * TODO handle the quality score logic
