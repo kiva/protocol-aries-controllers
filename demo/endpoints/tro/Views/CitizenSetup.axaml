@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="tro.Views.CitizenSetup">
+    <StackPanel >
+        <TextBlock Classes="h2">Citizen Agent</TextBlock>
+        <TextBlock Classes="h3">This step represents some form of onboarding or eKyc authentication that ensures a citizen is correctly established in the Kiva identity system.</TextBlock>
+        <StackPanel Classes="editor" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <Label>AgentId:</Label>
+                <TextBox Text="{Binding AgentId}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>DID:</Label>
+                <TextBox Text="{Binding Did}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Classes="editor" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <Label>WalletId:</Label>
+                <TextBox Text="{Binding WalletId}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>WalletKey:</Label>
+                <TextBox Text="{Binding WalletKey}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Classes="editor" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <Label>Seed:</Label>
+                <TextBox Text="{Binding Seed}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Admin API:</Label>
+                <TextBox Text="{Binding AdminApiKey}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding OnStartCitizen}">Start Agent</Button>
+            <Button Command="{Binding OnStopCitizen}">Stop Agent</Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

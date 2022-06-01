@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="tro.Views.TDCConnection">
+    <StackPanel>
+        <TextBlock Classes="h2">Connect to TDC</TextBlock>
+        <TextBlock Classes="h3" TextWrapping="Wrap" >This is a setup step that configures the individual (TRO) to use the transaction system. It is only needed to be run once for each FSP the individual conducts business with.</TextBlock>
+        <StackPanel Classes="h4" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock>Credential Created:</TextBlock>
+            <TextBlock Margin="5,0,0,0">Credit-TRO-Auth-Id</TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label>URL:</Label>
+            <TextBox Text="{Binding Url}" />
+            <Button Command="{Binding OnConnectToTDC}">Go</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Connection Id: </TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding ConnectionId}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

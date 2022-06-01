@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:models="clr-namespace:fsp.Models.UI"
+             x:Class="fsp.Views.CreditReport">
+    
+    <UserControl.DataTemplates>
+        <DataTemplate  DataType="{x:Type models:ReportContentString}" >
+            
+        </DataTemplate>
+    </UserControl.DataTemplates>
+    
+    <StackPanel>
+        <TextBlock Classes="h2">Get Transaction Report</TextBlock>
+        <TextBlock Classes="h3">
+            The transaction report provides the FSP with transaction report for a citizen.  For the FSP,
+the transaction report is the value of our transaction system
+        </TextBlock>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding OnGetReport}">Go</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Report Id:</TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding ReportId}" />
+            <TextBlock Margin="25,0,0,0">Status: </TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding ReportStatus}" />
+        </StackPanel>        
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding OnRefreshReport}">Refresh Status</Button>
+            <Button Command="{Binding OnRetrieveReport}">Retrieve</Button>
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Report" />
+            <TextBlock Text="{Binding ReportData}" TextWrapping="WrapWithOverflow" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

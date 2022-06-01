@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="fsp.Views.SendTransactions">
+    <StackPanel
+    >
+        <TextBlock Classes="h2">Create A Transaction</TextBlock>
+        <TextBlock Classes="h3">
+            Transactions are the heart of the system.  The FSP creates many transactions for an account.  Typically these events
+are precipitated by a customer action, such as making a payment.  Examples of transactions include opening an account,
+making a payment, or late fees.            
+        </TextBlock>
+        <StackPanel Classes="h4" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock>Credential Created:</TextBlock>
+            <TextBlock Margin="5,0,0,0">Credit-Event</TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Type Id:</TextBlock>
+                    <TextBox Text="{Binding TypeId}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Subject Id:</TextBlock>
+                    <TextBox Text="{Binding SubjectId}" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Date:</TextBlock>
+                    <TextBox Text="{Binding Date}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Amount $:</TextBlock>
+                    <TextBox Text="{Binding Amount}" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Transaction Data:</TextBlock>
+                <TextBox Text="{Binding EventData}" />
+            </StackPanel>
+            <Button Command="{Binding OnCreateTransaction}">Go</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Transaction Id:</TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding TxId}" />
+            <TextBlock Margin="25,0,0,0">Status:</TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding TxStatus}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding OnRefreshTransaction}">Refresh</Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

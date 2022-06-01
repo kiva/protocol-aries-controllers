@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Views\Styles.xaml" />
+        <Folder Include="Models\" />
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+        <PackageReference Include="Flurl" Version="3.0.1" />
+        <PackageReference Include="Flurl.Http" Version="3.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Views\CreditReport.axaml.cs">
+        <DependentUpon>CreditReport.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Header.axaml.cs">
+        <DependentUpon>Header.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\IssueOneTimeValue.axaml.cs">
+        <DependentUpon>IssueOneTimeValue.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\TDCConnection.axaml.cs">
+        <DependentUpon>TDCConnection.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+</Project>

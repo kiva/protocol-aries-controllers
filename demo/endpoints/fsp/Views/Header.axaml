@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="fsp.Views.Header">
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Classes="h1" Text="{Binding AppTitle}"></TextBlock>
+        <TextBlock DockPanel.Dock="Top" Classes="h3" Text="{Binding AppDesc}"></TextBlock>
+        <StackPanel DockPanel.Dock="Bottom">
+            <ProgressBar Value="{Binding ProgressBarValue}" MinWidth="50"></ProgressBar>
+            <TextBlock Classes="Status" Text="{Binding Status}"></TextBlock>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="fsp.Views.Tools">
+    <StackPanel>
+        <TextBlock Classes="h2">Debugging Tools</TextBlock>
+        <TextBlock Classes="h3">
+            These functions are provided to help with testing.  Be aware! Using these
+            could create unstable conditions in the system.
+        </TextBlock>
+        <Label Content="Generate Fake Keys:" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Connection Id:</TextBlock>
+            <Button Command="{Binding OnGenerateFakeConnectionId}">Go</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>TdcTroId Id:</TextBlock>
+            <Button Command="{Binding OnGenerateFakeTdcTroId}">Go</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>TdcFspId Id:</TextBlock>
+            <Button Command="{Binding OnGenerateFakeTdcFspId}">Go</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Report Id:</TextBlock>
+            <Button Command="{Binding OnGenerateFakeReportId}">Go</Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

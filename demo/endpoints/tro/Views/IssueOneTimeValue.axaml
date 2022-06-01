@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="tro.Views.IssueOneTimeValue">
+    <StackPanel>
+        <TextBlock Classes="h2">Send Nonce</TextBlock>
+        <TextBlock Classes="h3">This step is required for each new account that created in the FSP.  This step is like a handshake between the FSP and individual (TRO). The value must be the same between the FSP and the TRO.</TextBlock>
+        <StackPanel Classes="h4" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock>Credential Created:</TextBlock>
+            <TextBlock Margin="5,0,0,0">Credit-Grant</TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Key:" />
+            <TextBox Text="{Binding OneTimeValue}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Tro Id:</TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding TdcTroId}" />
+            <TextBlock Margin="25,0,0,0">Fsp Id:</TextBlock>
+            <TextBlock Margin="5,0,0,0" Text="{Binding TdcFspId}" />
+        </StackPanel>        
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding OnGenerateValue}">Generate Value</Button>
+            <Button Command="{Binding OnSendOneTimeValue}">Send to TDC</Button>
+            <Button Command="{Binding OnRefreshOneTimeKeyIds}">Refresh Ids</Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
