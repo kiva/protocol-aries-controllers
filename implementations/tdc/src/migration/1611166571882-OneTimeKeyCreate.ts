@@ -1,11 +1,11 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
-import { Logger } from 'protocol-common/logger';
+import { MigrationInterface, QueryRunner } from 'typeorm';
+import { Logger } from '@nestjs/common';
 
 export class OneTimeKey1611166571882 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
 
-        Logger.info(`OneTimeKey1611166571882 running up`);
+        Logger.log('OneTimeKey1611166571882 running up');
         await queryRunner.query(`
             CREATE TABLE IF NOT EXISTS one_time_key (
                 one_time_key varchar(64) NOT NULL PRIMARY KEY,
@@ -19,9 +19,9 @@ export class OneTimeKey1611166571882 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        Logger.info(`OneTimeKey1611166571882 running down`);
+        Logger.log('OneTimeKey1611166571882 running down');
         await queryRunner.query(
-            `DROP TABLE IF EXISTS one_time_key;`
+            'DROP TABLE IF EXISTS one_time_key;'
         );
     }
 }

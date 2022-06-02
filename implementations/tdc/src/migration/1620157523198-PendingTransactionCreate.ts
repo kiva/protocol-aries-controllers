@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class PendingTransactionCreate1620157523198 implements MigrationInterface {
 
@@ -14,7 +14,7 @@ export class PendingTransactionCreate1620157523198 implements MigrationInterface
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `DROP TABLE IF EXISTS pending_transaction;`
+            'DROP TABLE IF EXISTS pending_transaction;'
         );
     }
 

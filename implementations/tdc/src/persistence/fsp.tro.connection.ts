@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-/*
-    This record is created after the FSP and TRO are successfully connected.
-*/
+/**
+ *This record is created after the FSP and TRO are successfully connected.
+ */
 @Entity({ name: 'fsp_tro_connection', synchronize: false })
 export class FspTroConnection {
 

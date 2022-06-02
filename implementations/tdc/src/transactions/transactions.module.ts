@@ -1,13 +1,10 @@
-import { Module, forwardRef, HttpModule } from '@nestjs/common';
-import { IssuerModule } from 'aries-controller/issuer/issuer.module';
-import { VerifierModule } from 'aries-controller/verifier/verifier.module';
-import { AgentModule } from 'aries-controller/agent/agent.module';
-import { GlobalCacheModule } from 'aries-controller/app/global.cache.module';
-import { AgentGovernanceFactory } from 'aries-controller/controller/agent.governance.factory';
-import { DataService } from '../persistence/data.service';
-import { TransactionMessageResponseFactory } from './messaging/transaction.message.response.factory';
-import { TransactionsService } from './transactions.service';
-import { TransactionsController } from './transactions.controller';
+import { Module, forwardRef } from '@nestjs/common';
+import { DataService } from '../persistence/data.service.js';
+import { TransactionMessageResponseFactory } from './messaging/transaction.message.response.factory.js';
+import { TransactionsService } from './transactions.service.js';
+import { TransactionsController } from './transactions.controller.js';
+import { AgentGovernanceFactory, AgentModule, GlobalCacheModule, IssuerModule, VerifierModule } from 'aries-controller';
+import { ProtocolHttpModule } from 'protocol-common';
 
 @Module({
     imports: [
@@ -15,7 +12,7 @@ import { TransactionsController } from './transactions.controller';
         forwardRef( () => VerifierModule),
         forwardRef(() => AgentModule),
         GlobalCacheModule,
-        HttpModule
+        ProtocolHttpModule
 
     ],
     controllers: [TransactionsController],
@@ -25,8 +22,6 @@ import { TransactionsController } from './transactions.controller';
         DataService,
         TransactionMessageResponseFactory
     ],
-    exports: [
-        TransactionsService
-    ]
+    exports: [TransactionsService]
 })
 export class TransactionsModule {}
