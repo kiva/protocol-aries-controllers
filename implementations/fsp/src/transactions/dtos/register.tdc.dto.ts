@@ -3,14 +3,14 @@ import { IsString } from 'class-validator';
 
 export class RegisterTdcDto {
     @ApiProperty({
-        example: `tdc`,
-        description: `arbitrary id for the tdc.  the fsp can use this as an id`
+        example: 'tdc',
+        description: 'arbitrary id for the tdc.  the fsp can use this as an id'
     })
     @IsString() readonly tdcPrefix: string;
 
     @ApiProperty({
-        example: `http://localhost:3015`,
-        description: `url for the TDC restful apis`
+        example: 'http://localhost:3015',
+        description: 'url for the TDC restful apis'
     })
     @IsString() readonly tdcEndpoint: string;
 }

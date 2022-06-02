@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 export class ReportRequestsCreate1620243911469 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        Logger.log(`ReportRequestsCreate1620243911469 Creating table`);
+        Logger.log('ReportRequestsCreate1620243911469 Creating table');
         // we do not need to preserve existing data as its not deployed yet
         await queryRunner.query(`
             DROP TABLE IF EXISTS requested_reports;
@@ -21,9 +21,9 @@ export class ReportRequestsCreate1620243911469 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        Logger.log(`ReportRequestsCreate1620243911469 dropping table`);
+        Logger.log('ReportRequestsCreate1620243911469 dropping table');
         await queryRunner.query(
-            `DROP TABLE IF EXISTS requested_reports;`
+            'DROP TABLE IF EXISTS requested_reports;'
         );
     }
 

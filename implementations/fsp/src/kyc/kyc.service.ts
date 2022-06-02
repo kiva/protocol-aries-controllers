@@ -25,6 +25,8 @@ export class KycService {
       private readonly verifierService: VerifierService,
     ) {}
 
+    private static ignorePromiseResult = (): void => {};
+
     /**
      * TODO handle the quality score logic
      * TODO right now this is just KYC for fingerprint
@@ -34,10 +36,12 @@ export class KycService {
         try {
             body = await this.formatFingerprintData(body);
             const result = await this.verifierService.escrowVerify(body, 'sl.kyc.proof.request.json');
-            this.trackKycInfo('FINGERPRINT', body, authHeader, sessionId, true, 'FINGERPRINT_MATCH');
+            this.trackKycInfo('FINGERPRINT', body, authHeader, sessionId, true, 'FINGERPRINT_MATCH')
+              .catch(KycService.ignorePromiseResult);
             return result;
         } catch (e) {
-            this.trackKycInfo('FINGERPRINT', body, authHeader, sessionId, false, e.code,);
+            this.trackKycInfo('FINGERPRINT', body, authHeader, sessionId, false, e.code)
+              .catch(KycService.ignorePromiseResult);
             throw e;
         }
     }
@@ -97,13 +101,16 @@ export class KycService {
         try {
             const result = await this.verifierService.escrowVerify(body, 'sl.kyc.proof.request.json');
             if (result.status === 'sent') {
-                this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, true, 'SMS_SENT');
+                this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, true, 'SMS_SENT')
+                  .catch(KycService.ignorePromiseResult);
             } else {
-                this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, true, 'OTP_VERIFIED');
+                this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, true, 'OTP_VERIFIED')
+                  .catch(KycService.ignorePromiseResult);
             }
             return result;
         } catch (e) {
-            this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, false, e.code);
+            this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, false, e.code)
+              .catch(KycService.ignorePromiseResult);
             throw e;
         }
     }

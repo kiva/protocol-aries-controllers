@@ -40,18 +40,17 @@ export class TransactionService {
      * @param route
      * @param topic
      * @param body
-     * @param token
      */
     public basicMessageHandler: ControllerCallback =
-        async (agentUrl: string, agentId: string, adminApiKey: string, route: string, topic: string, body: any, token?: string):
+        async (agentUrl: string, agentId: string, adminApiKey: string, route: string, topic: string, body: any):
             Promise<boolean> => {
-            let result: boolean = false;
-            Logger.debug(`Fsp TransactionService received basic message`, body);
+            let result = false;
+            Logger.debug('Fsp TransactionService received basic message', body);
             const data = JSON.parse(body.content);
             switch (data.messageTypeId) {
-                case `grant`:
-                    if (data.state === `completed`) {
-                        Logger.log(`received completed grant information.`, data);
+                case 'grant':
+                    if (data.state === 'completed') {
+                        Logger.log('received completed grant information.', data);
                         const record: TdcGrants = new TdcGrants();
                         record.fsp_id = data.tdcFspId;
                         record.tdc_id = data.tdcTroId;  // TODO: fsp doesn't need this, can be removed
@@ -60,9 +59,9 @@ export class TransactionService {
                         result = true;
                     }
                     break;
-                case `credit_transaction`:
-                    if (data.state === `completed`) {
-                        Logger.log(`transaction accepted by TRO ${data.id}`);
+                case 'credit_transaction':
+                    if (data.state === 'completed') {
+                        Logger.log(`transaction accepted by TRO ${data.id as string}`);
                         const record: Transaction = new Transaction();
                         record.transaction_id = data.id;
                         record.fsp_id = data.transaction.fspId;
@@ -72,9 +71,9 @@ export class TransactionService {
                         result = true;
                     }
                     break;
-                case `transaction_request`:
-                    if (data.state === `completed`) {
-                        Logger.debug(`received a completed transaction report`, data);
+                case 'transaction_request':
+                    if (data.state === 'completed') {
+                        Logger.debug('received a completed transaction report', data);
                         const record: RequestedReport = new RequestedReport();
                         record.report_id = data.id;
                         record.fsp_id = data.tdcFspId;          // this isnt needed
@@ -89,7 +88,7 @@ export class TransactionService {
             }
 
             return result;
-        }
+        };
 
     /**
      * @param body: RegisterTdcDto
@@ -98,12 +97,12 @@ export class TransactionService {
         // 1 generate a connection invite from fsp agent
         const connection = await this.agentService.openConnection();
         const url = `${body.tdcEndpoint}/v2/fsp/register`;
-        Logger.log(`FSP created this connection ${connection.connection_id} invitation`, connection);
+        Logger.log(`FSP created this connection ${connection.connection_id as string} invitation`, connection);
 
         // 2 using body.tdcEndpoint, call: /fsp/register passing in a connection invite
         const data = {
             alias: connection.invitation.label,
-            identityProfileId: `citizen.identity`,
+            identityProfileId: 'citizen.identity',
             invitation: connection.invitation
         };
         Logger.log(`connecting to TDC ${url} with data`, data);
@@ -125,7 +124,7 @@ export class TransactionService {
     public async registerOnetimeKey(body: RegisterOneTimeKeyDto): Promise<any> {
         // 2 using body.tdcEndpoint, call: /fsp/register passing in a connection invite
         // todo: replace tdcEndpoint with lookup since we have connection id
-        Logger.log(`FSP sending onetimekey data`, body);
+        Logger.log('FSP sending onetimekey data', body);
         const url = `${body.tdcEndpoint}/v2/fsp/register/onetimekey`;
         const data = {
             connectionId: body.connectionId,
@@ -152,6 +151,7 @@ export class TransactionService {
 
     /**
      * helped method that allows the fsp interface query for fsp_id for a given onetimekey value
+     *
      * @param key - onetimekey value previously registered with the TDC using registerOnetimeKey
      *
      * This record will only exist when both the FSP and TRO have successfully registered the same
@@ -174,7 +174,7 @@ export class TransactionService {
             else
                 return { key, state: 'error', tdcFspId: undefined, tdcTroId: undefined};
         } catch (e) {
-            Logger.warn(`getOneTimeKeyIds errored`, e);
+            Logger.warn('getOneTimeKeyIds errored', e);
         }
 
         return { key, state: 'error', tdcFspId: undefined, tdcTroId: undefined};
@@ -199,7 +199,7 @@ export class TransactionService {
                     hash: record.hash
                 };
         } catch (e) {
-            Logger.warn(`failed to find transaction`, e);
+            Logger.warn('failed to find transaction', e);
         }
 
         return {
@@ -214,6 +214,7 @@ export class TransactionService {
 
     /**
      * helper method that allows fsp interface to query status of a report request
+     *
      * @param key
      */
     public async getReportStatus(key: string): Promise<any> {
@@ -274,7 +275,7 @@ export class TransactionService {
      * @param body: TransactionReportRequestDto
      */
     public async  getTransactionReport(body: TransactionReportRequestDto): Promise<any> {
-        Logger.log(`FSP request transaction report data`, body);
+        Logger.log('FSP request transaction report data', body);
         const url = `${body.tdcEndpoint}/v2/transactions/report`;
         const data = {
             fspTdcId: body.fspTdcId,

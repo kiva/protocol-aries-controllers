@@ -48,7 +48,7 @@ export class KycController {
      * Returns all potential kyc attributes, also serves as a ping endpoint for developers
      */
     @Get('attributes')
-    async getRequestedAttributes(): Promise<Array<string>> {
-        return await this.kycService.getAllKycAttributes();
+    getRequestedAttributes(): Array<string> {
+        return this.kycService.getAllKycAttributes();
     }
 }

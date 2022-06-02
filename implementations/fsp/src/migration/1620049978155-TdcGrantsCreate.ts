@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 export class TdcGrantsCreate1620049978155 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        Logger.log(`TdcGrants1620049978155 creating table`);
+        Logger.log('TdcGrants1620049978155 creating table');
         await queryRunner.query(`
             CREATE TABLE IF NOT EXISTS tdc_grants (
                 id serial PRIMARY KEY,
@@ -16,9 +16,9 @@ export class TdcGrantsCreate1620049978155 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        Logger.log(`TdcGrants1620049978155 dropping table`);
+        Logger.log('TdcGrants1620049978155 dropping table');
         await queryRunner.query(
-            `DROP TABLE IF EXISTS tdc_grants;`
+            'DROP TABLE IF EXISTS tdc_grants;'
         );
     }
 
