@@ -10,7 +10,6 @@ import { inspect } from 'util';
 describe('Full system issue and verify flows for note credentials', () => {
     let invitation: any;
     let kivaConnectionId: string;
-    let credentialExchangeId: string;
     let presExId: string;
 
     const delayFunc = (ms: number) => {
@@ -78,9 +77,8 @@ describe('Full system issue and verify flows for note credentials', () => {
                     expect(res.status).toBe(201);
                     expect(res.body.state).toBe('offer_sent');
                     expect(res.body.credential_exchange_id).toBeDefined();
-                    credentialExchangeId = res.body.credential_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -93,7 +91,7 @@ describe('Full system issue and verify flows for note credentials', () => {
             connectionId: kivaConnectionId,
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/verify`)
+            .post('/v2/api/verify')
             .send(data)
             .expect((res) => {
                 try {
@@ -102,7 +100,7 @@ describe('Full system issue and verify flows for note credentials', () => {
                     expect(res.body.presentation_exchange_id).toBeDefined();
                     presExId = res.body.presentation_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });

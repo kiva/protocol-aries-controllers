@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { readFileSync } from 'fs';
 import { inspect } from 'util';
-import { ProtocolErrorCode } from 'protocol-common/protocol.errorcode';
+import { ProtocolErrorCode } from 'protocol-common';
 
 /**
  * I want to log the response body on error so that we can better diagnose what's going on. It doesn't seem like there's an automatic way:
@@ -11,13 +11,11 @@ import { ProtocolErrorCode } from 'protocol-common/protocol.errorcode';
 describe('Full system integration tests for eKYC flows', () => {
     let fingerprint1: string;
     let fingerprint2: string;
-    let fingerprint2LowQal: string;
     let device: any;
 
     beforeAll(() => {
         fingerprint1 = readFileSync('./images/fingerprint1.png').toString('base64');
         fingerprint2 = readFileSync('./images/fingerprint2.png').toString('base64');
-        fingerprint2LowQal = readFileSync('./images/fingerprint2-low-quality.png').toString('base64');
         device = {
             FingerprintSensorSerialNumber: 'xyz123',
             TellerComputerUsername: 'testTeller',
@@ -71,7 +69,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(attached).toBeDefined();
 
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -108,7 +106,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(photoAttach).not.toBeNull();
                     // expect(res.body.lastName).toBeUndefined();
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -138,7 +136,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.status).toBe(201);
                     expect(res.body.nationalId).toBe('NIN00002');
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -168,7 +166,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.status).toBe(201);
                     expect(res.body.nationalId).toBe('NIN00001');
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -193,7 +191,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.status).toBe(201);
                     expect(res.body.status).toBe('sent');
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -221,7 +219,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.body.details[0].property).toBe('position');
                     expect(res.body.details[1].property).toBe('device');
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -247,7 +245,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.status).toBe(400);
                     expect(res.body.code).toBe(ProtocolErrorCode.NO_CITIZEN_FOUND);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -276,7 +274,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.status).toBe(400);
                     expect(res.body.code).toBe(ProtocolErrorCode.NO_CITIZEN_FOUND);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -302,7 +300,7 @@ describe('Full system integration tests for eKYC flows', () => {
                     expect(res.status).toBe(400);
                     expect(res.body.code).toBe(ProtocolErrorCode.OTP_NO_MATCH);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });

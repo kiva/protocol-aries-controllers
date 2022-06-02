@@ -20,7 +20,7 @@ describe('Full system eKYC integration tests for ncra register flows', () => {
         fingerprintRegister = readFileSync('./images/fingerprint3.png').toString('hex');
         fingerprintKyc = readFileSync('./images/fingerprint3.png').toString('base64');
         voterId = 1000000 + parseInt(Date.now().toString().substr(7, 6), 10); // Predictable and unique exact 7 digits that doesn't start with 0
-        nationalId = 'N' + voterId;
+        nationalId = `N${voterId.toString(10)}`;
         device = {
             FingerprintSensorSerialNumber: 'xyz123',
             TellerComputerUsername: 'testTeller',
@@ -64,7 +64,7 @@ describe('Full system eKYC integration tests for ncra register flows', () => {
                     expect(res.status).toBe(201);
                     expect(res.body.success).toBe(true);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -90,7 +90,7 @@ describe('Full system eKYC integration tests for ncra register flows', () => {
                     expect(res.status).toBe(201);
                     expect(res.body.nationalId).toBe(nationalId);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
