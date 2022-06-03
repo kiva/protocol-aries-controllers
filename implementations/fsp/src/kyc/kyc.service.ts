@@ -4,22 +4,12 @@ import { AxiosRequestConfig } from 'axios';
 import { KycDto } from './dtos/kyc.dto.js';
 import { KycResponseDto } from './dtos/kyc.response.dto.js';
 import { KycSmsDto } from './dtos/kyc.sms.dto.js';
-import { Constants, ProtocolErrorCode, ProtocolException, ProtocolHttpService, RequestContext } from 'protocol-common';
+import { Constants, ProtocolHttpService, RequestContext } from 'protocol-common';
 import { VerifierService } from 'aries-controller';
 
-/**
- * Contain logic specific to KYC in Sierra Leone such as:
- *   Hard-coding KYC profile path (TODO can make env var)
- *   Reporting KYC statistics to firebase
- *   Fuzzy search (TODO could make this generic if needed)
- *   Fingerprint quality score handling (TODO that logic could be moved to guardian-bio-auth repo)
- */
 @Injectable()
 export class KycService {
 
-    /**
-     * Wraps the injected HttpService in a ProtocolHttpService
-     */
     constructor(
       private readonly http: ProtocolHttpService,
       private readonly verifierService: VerifierService,
@@ -34,8 +24,8 @@ export class KycService {
      */
     public async kyc(body: any, authHeader: string, sessionId: string): Promise<KycResponseDto> {
         try {
-            body = await this.formatFingerprintData(body);
-            const result = await this.verifierService.escrowVerify(body, 'sl.kyc.proof.request.json');
+            body = await KycService.formatFingerprintData(body);
+            const result = await this.verifierService.escrowVerify(body, 'demo.proof.request.json');
             this.trackKycInfo('FINGERPRINT', body, authHeader, sessionId, true, 'FINGERPRINT_MATCH')
               .catch(KycService.ignorePromiseResult);
             return result;
@@ -48,31 +38,8 @@ export class KycService {
 
     /**
      * Formats data for the key-guardian service
-     * Also handles search params if they are present and throws any validation errors
      */
-    private async formatFingerprintData(body: KycDto) {
-        if (body.filters && body.search || (!body.filters && !body.search)) {
-            throw new ProtocolException(ProtocolErrorCode.VALIDATION_EXCEPTION, 'Must define filters or search but not both');
-        }
-
-        if (body.search) {
-            // TODO move this to a remote implementation folder
-            const searchRequest: AxiosRequestConfig = {
-                method: 'GET',
-                url: process.env.NCRA_CONTROLLER_URL + '/v2/search',
-                data: body.search,
-            };
-            const searchResult = await this.http.requestWithRetry(searchRequest);
-            const voterIds = searchResult.data;
-            // Identity service expects a comma separated string
-            const voterIdList = voterIds.join(',');
-            body.filters = {
-                externalIds: {
-                    sl_voter_id: voterIdList
-                }
-            };
-        }
-
+    private static async formatFingerprintData(body: KycDto) {
         // Support either fingerprint images or templates
         const params = {
             position: body.position,
@@ -97,9 +64,9 @@ export class KycService {
      * Top level kyc function for SMS OTP
      */
     public async kycSms(body: any, authHeader: string, sessionId: string): Promise<KycResponseDto> {
-        body = this.formatSmsData(body);
+        body = KycService.formatSmsData(body);
         try {
-            const result = await this.verifierService.escrowVerify(body, 'sl.kyc.proof.request.json');
+            const result = await this.verifierService.escrowVerify(body, 'demo.proof.request.json');
             if (result.status === 'sent') {
                 this.trackKycInfo('SMS_OTP', body, authHeader, sessionId, true, 'SMS_SENT')
                   .catch(KycService.ignorePromiseResult);
@@ -115,7 +82,7 @@ export class KycService {
         }
     }
 
-    private formatSmsData(body: KycSmsDto) {
+    private static formatSmsData(body: KycSmsDto) {
         return {
             pluginType: 'SMS_OTP',
             filters: {
@@ -141,7 +108,7 @@ export class KycService {
                 Logger.warn('Unable to track KYC data because auth header is missing');
                 return;
             }
-            const metaData = this.extractMetadata(authHeader);
+            const metaData = KycService.extractMetadata(authHeader);
 
             // This was copied from https://github.com/kiva/Protocol-EKYC-SDK/blob/master/src/ui/utils/IdentitySDK.js#L77
             const trackData: any = {
@@ -184,27 +151,16 @@ export class KycService {
     /**
      * Decodes jwt to get metadata and the sanitizes the metadata keys to be acceptable by firebase
      */
-    private extractMetadata(authHeader: string): any {
+    private static extractMetadata(authHeader: string): any {
         // Extract data from the jwt token to send along. This has already passed through the gateway so has been verified
         const token = authHeader.slice(7, authHeader.length);
-        const metaData = jwt.decode(token);
-
-        // Sanitize metadata keys
-        const keys = Object.keys(metaData);
-        for (const key of keys) {
-            if (key.includes('https://ekyc.sl.kiva.org/')) {
-                const newKey = key.replace('https://ekyc.sl.kiva.org/', '');
-                metaData[newKey] = metaData[key];
-                delete metaData[key];
-            }
-        }
-        return metaData;
+        return jwt.decode(token);
     }
 
     /**
      * All kyc attributes
      */
-    public getAllKycAttributes(): Array<string> {
+    public static getAllKycAttributes(): Array<string> {
         return [
             'nationalId',
             'nationalIssueDate',

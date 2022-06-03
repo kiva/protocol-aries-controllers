@@ -49,6 +49,6 @@ export class KycController {
      */
     @Get('attributes')
     getRequestedAttributes(): Array<string> {
-        return this.kycService.getAllKycAttributes();
+        return KycService.getAllKycAttributes();
     }
 }

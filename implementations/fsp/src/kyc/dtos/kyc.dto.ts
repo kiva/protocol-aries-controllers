@@ -7,11 +7,8 @@ import {
     Min,
     Max,
     Length,
-    IsNumberString,
-    ValidateNested
+    IsNumberString
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { SearchDto } from './search.dto.js';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
@@ -47,17 +44,9 @@ export class KycDto {
 
     @ApiPropertyOptional({
         example: { externalIds: { national_id: 1111111 } },
-        description: 'Must use either \'filters\' or \'search\' (but not both). Filters must include an externalIds ' +
-          'map. Each key in the map (e.g. \'national_id\') will always correspond to exactly 1 citizen.'
+        description: 'Filters must include externalIds map. Each key in the map (e.g. \'national_id\') will always correspond to exactly 1 citizen.'
     })
     @IsOptional() filters: any; // Some filters are checked by Filters are passed through and validated by the identity service
-
-    @ApiPropertyOptional({
-        readOnly: true,
-        description: 'Must use either \'filters\' or \'search\' (but not both). Search params my find multiple ' +
-          'citizens and the one with the best fingerprint match will be returned.'
-    })
-    @ValidateNested() @Type(() => SearchDto) search: SearchDto;
 
     @ApiPropertyOptional({
         readOnly: true,
