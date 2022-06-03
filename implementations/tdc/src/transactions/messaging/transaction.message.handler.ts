@@ -1,8 +1,8 @@
 import { IBasicMessageHandler } from './basic.message.handler.js';
 import { TransactionMessageStatesEnum } from './transaction.message.states.enum.js';
 import { DataService } from '../../persistence/data.service.js';
-import { PendingTransaction } from '../../persistence/pending.transaction.js';
-import { FspTroConnection } from '../../persistence/fsp.tro.connection.js';
+import { PendingTransaction } from '../../persistence/entities/pending.transaction.js';
+import { FspTroConnection } from '../../persistence/entities/fsp.tro.connection.js';
 import { AgentService, CreditTransaction } from 'aries-controller';
 import { ProtocolHttpService } from 'protocol-common';
 import { Logger } from '@nestjs/common';

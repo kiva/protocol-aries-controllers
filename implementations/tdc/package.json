@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Transaction Data coordinator controller",
     "license": "Apache-2.0",
-    "type": "commonjs",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/kiva/protocol-aries.git"

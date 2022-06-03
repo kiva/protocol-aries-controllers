@@ -1,0 +1,188 @@
+{
+    "DEFAULT": {
+        "comment":"Kiva-issued note credential"
+    },
+    "LOCAL": {
+        "proof_request":{
+            "name":"KivaIssuedNote",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "code":{
+                    "name":"code",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "Th7MpTaRZVRYnPiabds81Y"
+                        }
+                    ]
+                },
+                "value":{
+                    "name":"value",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "Th7MpTaRZVRYnPiabds81Y"
+                        }
+                    ]
+                },
+                "issued":{
+                    "name":"issued",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "Th7MpTaRZVRYnPiabds81Y"
+                        }
+                    ]
+                },
+                "expiry":{
+                    "name":"expiry",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "Th7MpTaRZVRYnPiabds81Y"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "DEV": {
+        "proof_request":{
+            "name":"KivaIssuedNote",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "code":{
+                    "name":"code",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                },
+                "value":{
+                    "name":"value",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                },
+                "issued":{
+                    "name":"issued",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                },
+                "expiry":{
+                    "name":"expiry",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "QA": {
+        "proof_request":{
+            "name":"KivaIssuedNote",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "code":{
+                    "name":"code",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                },
+                "value":{
+                    "name":"value",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                },
+                "issued":{
+                    "name":"issued",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                },
+                "expiry":{
+                    "name":"expiry",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "McP1XxbNgbWL1ZNgQQB9YL"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "SAND": {
+        "proof_request":{
+            "name":"KivaIssuedNote",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "code":{
+                    "name":"code",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "3bymcHbJGvAG77FuAB3hZh"
+                        }
+                    ]
+                },
+                "value":{
+                    "name":"value",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "3bymcHbJGvAG77FuAB3hZh"
+                        }
+                    ]
+                },
+                "issued":{
+                    "name":"issued",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "3bymcHbJGvAG77FuAB3hZh"
+                        }
+                    ]
+                },
+                "expiry":{
+                    "name":"expiry",
+                    "restrictions": [
+                        {
+                            "schema_name": "Note",
+                            "issuer_did": "3bymcHbJGvAG77FuAB3hZh"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "PROD": {
+
+    }
+}

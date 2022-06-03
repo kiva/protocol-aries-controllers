@@ -5,7 +5,7 @@ import { KycModule } from '../kyc/kyc.module.js';
 import { TransactionModule } from '../transactions/transaction.module.js';
 import { PersistenceModule } from '../persistence/persistence.module.js';
 import { OrmConfig } from '../ormconfig.js';
-import { ConfigModule, LoggingInterceptor } from 'protocol-common';
+import { ConfigModule, LoggingInterceptor, ProtocolLoggerModule } from 'protocol-common';
 import {
     AgentControllerModule,
     AgentModule,
@@ -26,6 +26,7 @@ import fspEnvData from '../config/env.json' assert { type: 'json'};
 @Module({
     imports: [
         ConfigModule.init({...baseEnvData, ...fspEnvData}),
+        ProtocolLoggerModule,
         OrmConfig(),
         AgentModule,
         AgentControllerModule,

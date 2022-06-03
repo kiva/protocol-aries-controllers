@@ -39,22 +39,6 @@ services:
             - POSTGRES_PASSWORD=dbpass
             - POSTGRES_PORT=5432
 
-    protocol-identity-db:
-        image: postgres:11
-        container_name: protocol-identity-db
-        command: postgres
-        volumes:
-            - ./implementations/ncra/identity_db/insert-scripts:/insert-scripts
-            - ./implementations/ncra/identity_db/create-scripts:/docker-entrypoint-initdb.d/
-        shm_size: '2gb'
-        env_file:
-            - ./implementations/ncra/.env
-        networks:
-            - agency-network
-        depends_on:
-            - kiva-controller
-        tty: true
-
     fsp-controller:
         env_file:
             - ./implementations/fsp/.env
@@ -69,7 +53,6 @@ services:
         networks:
             - agency-network
         depends_on:
-            - ncra-controller
             - protocol-fsp-db
         tty: true
 

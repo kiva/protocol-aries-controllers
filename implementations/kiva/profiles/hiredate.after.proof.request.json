@@ -1,0 +1,74 @@
+{
+    "DEFAULT": {
+        "comment":"Hire date after Jan 1 2018, employee attributes",
+        "proof_request":{
+            "name":"HireDateAfterUnrestrictedEmployee",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": []
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": []
+                },
+                "companyEmail":{
+                    "name":"companyEmail",
+                    "restrictions": []
+                },
+                "currentTitle":{
+                    "name":"currentTitle",
+                    "restrictions": []
+                },
+                "team":{
+                    "name":"team",
+                    "restrictions": []
+                },
+                "officeLocation":{
+                    "name":"officeLocation",
+                    "restrictions": []
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": []
+                },
+                "type":{
+                    "name":"type",
+                    "restrictions": []
+                },
+                "endDate":{
+                    "name":"endDate",
+                    "restrictions": []
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": []
+                }
+            },
+            "requested_predicates": {
+                "hire_date_later_than_jan_1_2018": {
+                    "name": "hireDate",
+                    "p_type": ">",
+                    "p_value": 1514764800,
+                    "restrictions": []
+                }
+            }
+        }
+    },
+    "LOCAL": {
+        
+    },
+    "DEV": {
+
+    },
+    "QA": {
+
+    },
+    "SAND": {
+
+    },
+    "PROD": {
+
+    }
+}

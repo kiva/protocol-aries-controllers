@@ -1,11 +1,17 @@
 # Protocol Aries Controllers
 
-This repo contains controllers using the airies-controller base.
+This repo contains controllers using the aries-controller base.
 
 The controllers in the repo are: FSP and TDC.
 
-Note:  These controllers were copied from the private report [protocol-aires](https://github.com/kiva/protocol-aries).
+Note: These controllers were copied from the private repo [protocol-aires](https://github.com/kiva/protocol-aries).
 
+### Notes
+This repo is dependent on additional protocol resources.  Here's the links:  
+[aries-guardianship-agency](https://github.com/kiva/aries-guardianship-agency)  
+[aries-key-guardian](https://github.com/kiva/aries-key-guardian.git)  
+[protocol-common](https://github.com/kiva/protocol-common.git)  
+[protocol](https://github.com/kiva/protocol.git)
 
 ### Pre-setup
 You will need git, docker, docker-compose, npm, nodejs and java installed on your machine.
@@ -14,13 +20,6 @@ For docker, we recommend increasing its allocated resources to:
 - CPUs: 8
 - Memory: 7 GB
 - Swap: 2 GB
-
-### Notes
-This repo is dependent on additional protocol resources.  Here's the links:  
-[aries-guardianship-agency](https://github.com/kiva/aries-guardianship-agency)  
-[aries-key-guardian](https://github.com/kiva/aries-key-guardian.git)  
-[protocol-common](https://github.com/kiva/protocol-common.git)  
-[protocol](https://github.com/kiva/protocol.git)
 
 ## Setup
 1. Create a `home directory`.  The idea here is that we want some top level folder on your machine that contains all our repos in one place.  You can call this "protocol-all" if you like.  Unless, specified, always run commands from the `home directory`.

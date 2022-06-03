@@ -1,9 +1,9 @@
 import { InjectConnection } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { TdcGrants } from './tdc.grants.js';
-import { Transaction } from './transaction.js';
-import { RequestedReport } from './requested.report.js';
+import { TdcGrants } from './entities/tdc.grants.js';
+import { Transaction } from './entities/transaction.js';
+import { RequestedReport } from './entities/requested.report.js';
 
 
 /*

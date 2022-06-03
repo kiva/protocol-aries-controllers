@@ -1,9 +1,9 @@
 import { InjectConnection } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { OneTimeKey } from './one.time.key.js';
-import { FspTroConnection } from './fsp.tro.connection.js';
-import { PendingTransaction } from './pending.transaction.js';
+import { OneTimeKey } from './entities/one.time.key.js';
+import { FspTroConnection } from './entities/fsp.tro.connection.js';
+import { PendingTransaction } from './entities/pending.transaction.js';
 
 
 /**

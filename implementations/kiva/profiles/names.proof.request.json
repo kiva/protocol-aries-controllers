@@ -1,0 +1,35 @@
+{
+    "DEFAULT": {
+        "comment":"No restrictions, name attributes",
+        "proof_request":{
+            "name":"NamesProofRequest",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": []
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": []
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "LOCAL": {
+        
+    },
+    "DEV": {
+
+    },
+    "QA": {
+
+    },
+    "SAND": {
+
+    },
+    "PROD": {
+
+    }
+}

@@ -3,7 +3,7 @@ import { TransactionsService } from '../transactions/transactions.service.js';
 import { Proofs } from '../common/proofs.js';
 import { ExceptionHandler } from '../common/exception.handler.js';
 import { TransactionMessageStatesEnum } from '../transactions/messaging/transaction.message.states.enum.js';
-import { OneTimeKey } from '../persistence/one.time.key.js';
+import { OneTimeKey } from '../persistence/entities/one.time.key.js';
 import { DataService } from '../persistence/data.service.js';
 import { AgentGovernance, AgentService, IssuerService, TdcGrant, VerifierService } from 'aries-controller';
 import { ProtocolUtility, SecurityUtility } from 'protocol-common';

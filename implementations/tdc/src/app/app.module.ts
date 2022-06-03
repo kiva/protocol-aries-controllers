@@ -6,7 +6,7 @@ import { TransactionsModule } from '../transactions/transactions.module.js';
 import { PersistenceModule } from '../persistence/persistence.module.js';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransactionMessagingModule } from '../transactions/messaging/transaction.messaging.module.js';
-import { ConfigModule, LoggingInterceptor } from 'protocol-common';
+import { ConfigModule, LoggingInterceptor, ProtocolLoggerModule } from 'protocol-common';
 import {
     AgentControllerModule,
     AgentModule,
@@ -29,6 +29,7 @@ import tdcEnvData from '../config/env.json' assert { type: 'json'};
 @Module({
     imports: [
         ConfigModule.init({...baseEnvData, ...tdcEnvData}),
+        ProtocolLoggerModule,
         OrmConfig(),
         AgentModule,
         AgentControllerModule,

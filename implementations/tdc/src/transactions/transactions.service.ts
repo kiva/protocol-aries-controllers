@@ -1,10 +1,10 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { Proofs } from '../common/proofs.js';
 import { ExceptionHandler } from '../common/exception.handler.js';
-import { FspTroConnection} from '../persistence/fsp.tro.connection.js';
+import { FspTroConnection} from '../persistence/entities/fsp.tro.connection.js';
 import { DataService } from '../persistence/data.service.js';
-import { PendingTransaction } from '../persistence/pending.transaction.js';
-import { OneTimeKey } from '../persistence/one.time.key.js';
+import { PendingTransaction } from '../persistence/entities/pending.transaction.js';
+import { OneTimeKey } from '../persistence/entities/one.time.key.js';
 import { CreateTransactionDto } from './dtos/create.transaction.dto.js';
 import { TransactionReportDto } from './dtos/transaction.report.dto.js';
 import { IBasicMessageHandler } from './messaging/basic.message.handler.js';

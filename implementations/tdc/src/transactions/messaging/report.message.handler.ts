@@ -1,5 +1,5 @@
 import { DataService } from '../../persistence/data.service.js';
-import { FspTroConnection } from '../../persistence/fsp.tro.connection.js';
+import { FspTroConnection } from '../../persistence/entities/fsp.tro.connection.js';
 import { IBasicMessageHandler } from './basic.message.handler.js';
 import { TransactionMessageStatesEnum } from './transaction.message.states.enum.js';
 import { TxReportResponseDto } from '../dtos/tx.report.response.dto.js';

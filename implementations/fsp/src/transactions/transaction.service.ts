@@ -6,9 +6,9 @@ import { RegisterOneTimeKeyDto } from './dtos/register.one.time.key.dto.js';
 import { TransactionReportRequestDto } from './dtos/transaction.report.request.dto.js';
 import { CreateTransactionDto } from './dtos/create.transaction.dto.js';
 import { DataService } from '../persistence/data.service.js';
-import { TdcGrants } from '../persistence/tdc.grants.js';
-import { Transaction } from '../persistence/transaction.js';
-import { RequestedReport } from '../persistence/requested.report.js';
+import { TdcGrants } from '../persistence/entities/tdc.grants.js';
+import { Transaction } from '../persistence/entities/transaction.js';
+import { RequestedReport } from '../persistence/entities/requested.report.js';
 import { ProtocolHttpService } from 'protocol-common';
 import { AgentGovernance, AgentService, ControllerCallback, Topics } from 'aries-controller';
 

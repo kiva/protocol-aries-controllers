@@ -120,8 +120,8 @@ jobs:
           name: Get ACAPy
           command: docker pull bcgovimages/aries-cloudagent:py36-1.16-1_0.7.1
       - run:
-          name: Override for fsp-controller, kiva-controller, ncra-controller, and tdc-controller images
-          command: ./scripts/setup_override.sh -r protocol-aries -s fsp-controller,kiva-controller,ncra-controller,tdc-controller -e scripts/dummy_env.sh
+          name: Override for fsp-controller, kiva-controller, and tdc-controller images
+          command: ./scripts/setup_override.sh -r protocol-aries-controllers -s fsp-controller,kiva-controller,tdc-controller -e scripts/dummy_env.sh
       - run:
           name: Start docker compose and wait for readiness
           command: |
