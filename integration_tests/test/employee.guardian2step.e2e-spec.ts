@@ -24,8 +24,8 @@ describe('Full system issue and verify flows for employee credentials', () => {
 
     beforeAll(() => {
         // Note that the register endpoint expects images hex encoded, and the kyc endpoint base64
-        fingerprintEnroll = readFileSync('./images/fingerprint3.png').toString('hex');
-        fingerprintVerify = readFileSync('./images/fingerprint3.png').toString('base64');
+        fingerprintEnroll = readFileSync('./images/fingerprint.png').toString('hex');
+        fingerprintVerify = readFileSync('./images/fingerprint.png').toString('base64');
         // We use email as the employees unique identifier so needs to be unique
         // This gives us a predictable and unique exact 7 digits that doesn't start with 0
         const id = 1000000 + parseInt(Date.now().toString().substr(7, 6), 10);
