@@ -55,7 +55,7 @@ jobs:
             ./scripts/dummy_env.sh
             docker pull bcgovimages/aries-cloudagent:py36-1.16-1_0.7.1
       - run:
-          name: Start dependencies docker compose
+          name: Start docker-compose
           command: |
             docker-compose -f docker-compose.dep.yml build
             docker-compose -f docker-compose.dep.yml up -d
@@ -70,17 +70,8 @@ jobs:
           command: |
             sleep 5
             ./scripts/healthcheck.sh http://localhost:8081/healthz
-      - run:
-          name: Start main docker compose
-          command: |
-            docker-compose -f docker-compose.ci.yml build
-            docker-compose -f docker-compose.ci.yml up -d
-            docker-compose -f docker-compose.ci.yml logs
-      - run:
-          name: Wait for readiness
-          command: |
-            ./scripts/healthcheck.sh http://localhost:3011/healthz
             sleep 30
+            ./scripts/healthcheck.sh http://localhost:3011/healthz
       - run:
           name: Run setup scripts
           command: |
