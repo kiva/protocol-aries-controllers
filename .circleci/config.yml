@@ -52,9 +52,7 @@ jobs:
       - run:
           name: Setup implementations
           command: |
-            cp implementations/fsp/dummy.env implementations/fsp/.env 
-            cp implementations/tdc/dummy.env implementations/tdc/.env
-            cp integration_tests/dummy.env integration_tests/.env
+            ./scripts/dummy_env.sh
             docker pull bcgovimages/aries-cloudagent:py36-1.16-1_0.7.1
       - run:
           name: Start dependencies docker compose
