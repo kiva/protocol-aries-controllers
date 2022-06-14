@@ -38,20 +38,20 @@ services:
             - POSTGRES_PASSWORD=dbpass
             - POSTGRES_PORT=5432
 
-#    kiva-controller:
-#        env_file:
-#            - ./implementations/kiva/.env
-#        build:
-#            context: ./implementations/kiva
-#            dockerfile: Dockerfile
-#        image: kiva-controller
-#        container_name: kiva-controller
-#        working_dir: /www
-#        ports:
-#            - "3011:3011"
-#        networks:
-#            - agency-network
-#        tty: true
+    kiva-controller:
+        env_file:
+            - ./implementations/kiva/.env
+        build:
+            context: ./implementations/kiva
+            dockerfile: Dockerfile
+        image: kiva-controller
+        container_name: kiva-controller
+        working_dir: /www
+        ports:
+            - "3011:3011"
+        networks:
+            - agency-network
+        tty: true
 
     fsp-controller:
         env_file:

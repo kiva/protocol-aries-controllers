@@ -1,11 +1,15 @@
 FROM node:16.14.2-alpine3.15 as node_modules
 WORKDIR /tmp/
 COPY package.json package-lock.json ./
+RUN npm config set fetch-retry-mintimeout 20000
+RUN npm config set fetch-retry-maxtimeout 120000
 RUN npm install --production
 
 FROM node:16.14.2-alpine3.15 as dist
 WORKDIR /tmp/
 COPY package.json package-lock.json tsconfig.json ./
+RUN npm config set fetch-retry-mintimeout 20000
+RUN npm config set fetch-retry-maxtimeout 120000
 RUN npm install
 COPY src/ src/
 RUN npm run build
@@ -17,4 +21,4 @@ COPY --from=dist /tmp/dist ./
 COPY profiles/ profiles/
 RUN adduser -S app
 USER app
-CMD ["node", "main.js"]
+CMD ["npm", "run", "start:prod"]

@@ -8,7 +8,7 @@
 #
 # this script should be run from protocol-aries directory
 #
-# You are  expected to update version prior to running 
+# You are  expected to update version prior to running
 # TODO figure out how to pass in the new version via command line
 
 echo "You are  expected to update version prior to running"
@@ -22,4 +22,5 @@ do_update() {
 }
 
 echo "fsp" && cd implementations/fsp && do_update
+echo "kiva" && cd implementations/kiva && do_update
 echo "tdc" && cd implementations/tdc && do_update

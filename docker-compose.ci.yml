@@ -65,4 +65,20 @@ services:
             - agency-network
         depends_on:
             - protocol-tdc-db
+            - kiva-controller
+        tty: true
+
+    kiva-controller:
+        env_file:
+            - ./implementations/kiva/.env
+        build:
+            context: ./implementations/kiva
+            dockerfile: Dockerfile.production
+        image: kiva-controller
+        container_name: kiva-controller
+        working_dir: /www
+        ports:
+            - "3011:3011"
+        networks:
+            - agency-network
         tty: true

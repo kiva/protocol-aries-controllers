@@ -13,10 +13,8 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        command: npm run start:debug
         image: kiva-controller
         container_name: kiva-controller
-        working_dir: /www
         ports:
             - "3011:3011"
         volumes:

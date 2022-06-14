@@ -12,14 +12,21 @@ jobs:
     steps:
       - checkout
       - run:
-          name: setup and lint fsp (todo tests)
+          name: setup and lint FSP
           command: |
             cd implementations/fsp
             npm install
             npm run lint
             npm run build
       - run:
-          name: setup and lint TDC (todo tests)
+          name: setup and lint Kiva
+          command: |
+            cd implementations/kiva
+            npm install
+            npm run lint
+            npm run build
+      - run:
+          name: setup and lint TDC
           command: |
             cd implementations/tdc
             npm install
@@ -209,6 +216,20 @@ workflows:
           image: kivaprotocol/fsp-controller
           tag: << pipeline.git.tag >>,latest
       - docker/publish:
+          name: docker/publish-kiva-controller
+          requires:
+            - protocol-integration-tests
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          update-description: true
+          docker-context: implementations/kiva
+          dockerfile: implementations/kiva/Dockerfile.production
+          image: kivaprotocol/kiva-controller
+          tag: << pipeline.git.tag >>,latest
+      - docker/publish:
           name: docker/publish-tdc-controller
           requires:
               - protocol-integration-tests
@@ -236,6 +257,20 @@ workflows:
           tag: << pipeline.git.tag >>
           service: fsp-controller
           helm-charts: implementations/fsp/helm-config
+      - push-to-dev:
+          name: push-to-dev-kiva-controller
+          context:
+            - continuous-deployment-dev
+          requires:
+            - docker/publish-kiva-controller
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          tag: << pipeline.git.tag >>
+          service: kiva-controller
+          helm-charts: implementations/kiva/helm-config
       - push-to-dev:
           name: push-to-dev-tdc-controller
           context:

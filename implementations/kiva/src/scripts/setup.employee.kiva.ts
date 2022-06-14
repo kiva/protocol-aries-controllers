@@ -1,11 +1,10 @@
-import { Logger } from 'protocol-common/logger';
-import { HttpService } from '@nestjs/common';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
 import { readFileSync } from 'fs';
+import { ProtocolHttpService } from 'protocol-common';
+import { Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 
 /**
  * Convenience script to setup the Kiva agent to issue employee credentials
- * Note that right now we need to run this script first fully, before spinning up the ncra controller and running the ncra script
  * Note this expects the steward controller is running
  * TODO make robust to different existing states
  *
@@ -39,7 +38,7 @@ class SetupEmployeeKiva {
         let res;
 
         // steward: create employee schema
-        const schema = this.fetchValues('profiles/employee.schema.json');
+        const schema = SetupEmployeeKiva.fetchValues('profiles/employee.schema.json');
         res = await this.http.requestWithRetry({
             method: 'POST',
             url: this.selfUrl + '/v1/steward/schema',
@@ -48,7 +47,7 @@ class SetupEmployeeKiva {
         Logger.log(res.data);
 
          // issuer: create cred def
-         const credDef = this.fetchValues('profiles/employee.cred.def.json');
+         const credDef = SetupEmployeeKiva.fetchValues('profiles/employee.cred.def.json');
          res = await this.http.requestWithRetry({
              method: 'POST',
              url: this.selfUrl + '/v1/issuer/cred-def',
@@ -58,11 +57,12 @@ class SetupEmployeeKiva {
     }
 
 
-    private fetchValues(file) {
-        const fileJson = JSON.parse(readFileSync('/www/' + file).toString());
-        const envValues = {...fileJson.DEFAULT, ...fileJson[process.env.NODE_ENV]};
-        return envValues;
+    private static fetchValues(file: string) {
+        const fileJson = JSON.parse(readFileSync(`/www/${file}`).toString());
+        return {...fileJson.DEFAULT, ...fileJson[process.env.NODE_ENV]};
     }
 }
 
-(new SetupEmployeeKiva()).run();
+(new SetupEmployeeKiva()).run().catch(e => {
+    Logger.error(e.message);
+});

@@ -1,11 +1,10 @@
-import { Logger } from 'protocol-common/logger';
-import { HttpService } from '@nestjs/common';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
 import { readFileSync } from 'fs';
+import { ProtocolHttpService } from 'protocol-common';
+import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 
 /**
  * Convenience script to setup the Kiva agent for the SL context
- * Note that right now we need to run this script first fully, before spinning up the ncra controller and running the ncra script
  * Note this expects the steward controller is running
  * TODO make robust to different existing states
  *
@@ -40,7 +39,7 @@ class SetupSlKiva {
         let res;
 
         // steward: publicize did
-        const profile = this.fetchValues('profiles/profile.json');
+        const profile = SetupSlKiva.fetchValues('profiles/profile.json');
         res = await this.http.requestWithRetry({
             method: 'POST',
             url: this.selfUrl + '/v1/agent/publicize-did',
@@ -51,7 +50,7 @@ class SetupSlKiva {
         Logger.log(res.data);
 
         // steward: create schema
-        const schema = this.fetchValues('profiles/sl.kyc.schema.json');
+        const schema = SetupSlKiva.fetchValues('profiles/sl.kyc.schema.json');
         res = await this.http.requestWithRetry({
             method: 'POST',
             url: this.selfUrl + '/v1/steward/schema',
@@ -61,11 +60,12 @@ class SetupSlKiva {
     }
 
 
-    private fetchValues(file) {
-        const fileJson = JSON.parse(readFileSync('/www/' + file).toString());
-        const envValues = {...fileJson.DEFAULT, ...fileJson[process.env.NODE_ENV]};
-        return envValues;
+    private static fetchValues(file: string) {
+        const fileJson = JSON.parse(readFileSync(`/www/${file}`).toString());
+        return {...fileJson.DEFAULT, ...fileJson[process.env.NODE_ENV]};
     }
 }
 
-(new SetupSlKiva()).run();
+(new SetupSlKiva()).run().catch(e => {
+    Logger.error(e.message);
+});
