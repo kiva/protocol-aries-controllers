@@ -37,6 +37,23 @@ services:
             agency-network:
                 ipv4_address: 10.0.0.2
 
+    protocol-identity-wallet-db:
+        image: postgres:11
+        container_name: protocol-identity-wallet-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        volumes:
+            - ./integration_tests/resources/identity_wallet:/docker-entrypoint-initdb.d/
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-indy-pool
+        tty: true
+        environment:
+            - POSTGRES_HOST=protocol-identity-wallet-db
+            - POSTGRES_DB=wallets
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=dbpass
+
     aries-guardianship-agency:
         image: kivaprotocol/aries-guardianship-agency:latest
         container_name: aries-guardianship-agency
@@ -69,27 +86,14 @@ services:
             - TAILS_URL=http://tails-server:6543
             - ACAPY_ADMIN_API_KEY=adminApiKey
 
-    protocol-identity-wallet-db:
-        image: postgres:11
-        container_name: protocol-identity-wallet-db
-        command: postgres -c logging_collector=on -c log_destination=stderr
-        volumes:
-            - ./integration_tests/resources/identity_wallet:/docker-entrypoint-initdb.d/
-        networks:
-            - agency-network
-        tty: true
-        environment:
-            - POSTGRES_HOST=protocol-identity-wallet-db
-            - POSTGRES_DB=wallets
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=dbpass
-
     protocol-auth-db:
         image: postgres:11
         container_name: protocol-auth-db
         command: postgres -c logging_collector=on -c log_destination=stderr
         networks:
             - agency-network
+        depends_on:
+            - protocol-indy-pool
         tty: true
         environment:
             - POSTGRES_DB=authdb
@@ -126,6 +130,8 @@ services:
         restart: always
         networks:
             - agency-network
+        depends_on:
+            - protocol-indy-pool
         tty: true
         environment:
             - POSTGRES_HOST=protocol-identity-template-db
@@ -141,7 +147,7 @@ services:
         networks:
             - agency-network
         depends_on:
-            - protocol-identity-db
+            - protocol-identity-template-db
         tty: true
         environment:
             - POSTGRES_HOST=protocol-identity-template-db

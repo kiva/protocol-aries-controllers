@@ -25,7 +25,7 @@
         "@nestjs/core": "~8.2.0",
         "@nestjs/swagger": "^5.2.1",
         "@nestjs/typeorm": "^8.0.3",
-        "aries-controller": "2.0.1",
+        "aries-controller": "2.0.2",
         "axios": "^0.26.0",
         "class-transformer": "^0.4.0",
         "dotenv": "^8.2.0",

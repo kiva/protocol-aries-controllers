@@ -1,7 +1,6 @@
 FROM node:16.14.2-alpine3.15 as node_modules
 WORKDIR /tmp/
 COPY package.json package-lock.json ./
-RUN curl -v https://registry.npmjs.com/
 RUN npm config set fetch-retry-mintimeout 20000
 RUN npm config set fetch-retry-maxtimeout 120000
 RUN npm install --production
