@@ -13,7 +13,7 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "start": "rm -rf dist/ && tsc && node -r dotenv/config --experimental-json-modules dist/main.js",
-        "start:prod": "node --experimental-json-modules main.js",
+        "start:prod": "node --experimental-json-modules dist/main.js",
         "start:debug": "nodemon --legacy-watch",
         "test": "node -r dotenv/config node_modules/.bin/jest --runInBand"
     },
