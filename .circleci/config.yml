@@ -57,9 +57,9 @@ jobs:
       - run:
           name: Start docker-compose
           command: |
-            docker-compose -f docker-compose.dep.yml build
-            docker-compose -f docker-compose.dep.yml up -d
-            docker-compose -f docker-compose.dep.yml logs
+            docker-compose -f docker-compose.ci.yml build
+            docker-compose -f docker-compose.ci.yml up -d
+            docker-compose -f docker-compose.ci.yml logs
       - run:
           name: Setup integration tests
           command: |
@@ -78,7 +78,6 @@ jobs:
             if ! ./scripts/prod_setup.sh ; then
               echo "Setup failed. Server logs:";
               docker-compose -f docker-compose.ci.yml logs;
-              docker-compose -f docker-compose.dep.yml logs;
               exit 1;
             fi
       - run:
@@ -89,7 +88,6 @@ jobs:
               echo "Tests failed. Server logs:";
               cd ..
               docker-compose -f docker-compose.ci.yml logs;
-              docker-compose -f docker-compose.dep.yml logs;
               exit 1;
             fi
 
