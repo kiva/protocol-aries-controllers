@@ -273,7 +273,6 @@ services:
             dockerfile: Dockerfile.production
         image: fsp-controller
         container_name: fsp-controller
-        working_dir: /www
         ports:
             - "3013:3013"
         networks:
@@ -290,7 +289,6 @@ services:
             dockerfile: Dockerfile.production
         image: tdc-controller
         container_name: tdc-controller
-        working_dir: /www
         ports:
             - "3015:3015"
         networks:
@@ -308,9 +306,10 @@ services:
             dockerfile: Dockerfile.production
         image: kiva-controller
         container_name: kiva-controller
-        working_dir: /www
         ports:
             - "3011:3011"
         networks:
             - agency-network
+        depends_on:
+            - protocol-indy-pool
         tty: true
