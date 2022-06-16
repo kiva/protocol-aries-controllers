@@ -7,10 +7,6 @@ import { Logger } from '@nestjs/common';
  * Convenience script to setup the TDC agent for the SL context
  * Note that right now we need to run this script first fully, before spinning up the ncra controller and running the ncra script
  * Note this expects the steward controller is running
- *
- * Currently this requires 2 different ways of running for dev and prod - eventually we should get this working in both
- *   Dev : docker exec -it tdc-controller ts-node /www/src/scripts/setup.tdc.ts
- *   Prod: docker exec -it tdc-controller node /www/scripts/setup.tdc.js
  */
 class SetupTDC {
 
@@ -29,7 +25,7 @@ class SetupTDC {
         try {
             await this.setup();
         } catch(e) {
-            Logger.log(e);
+            Logger.log(JSON.stringify(e));
             process.exit(1);
         }
     }
@@ -48,7 +44,7 @@ class SetupTDC {
                 this.profiles = SetupTDC.fetchNames('scripts/credentials');
             }
             catch {
-                this.profiles = SetupTDC.fetchNames('src/scripts/credentials');
+                this.profiles = SetupTDC.fetchNames('dist/scripts/credentials');
             }
         } catch (e) {
             Logger.warn('failed to read profiles from file', e);

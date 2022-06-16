@@ -7,10 +7,6 @@ import { HttpService } from '@nestjs/axios';
  * Convenience script to setup the Kiva agent to issue employee credentials
  * Note this expects the steward controller is running
  * TODO make robust to different existing states
- *
- * Currently this requires 2 different ways of running for dev and prod - eventually we should get this working in both
- *   Dev : docker exec -it kiva-controller ts-node /www/scripts/setup.employee.kiva.ts
- *   Prod: docker exec -it kiva-controller node /www/scripts/setup.employee.kiva.js
  */
 class SetupEmployeeKiva {
 
@@ -26,7 +22,7 @@ class SetupEmployeeKiva {
         try {
             await this.setup();
         } catch(e) {
-            Logger.log(e);
+            Logger.log(JSON.stringify(e));
             process.exit(1);
         }
     }
@@ -36,6 +32,17 @@ class SetupEmployeeKiva {
      */
     private async setup() {
         let res;
+
+        // steward: publicize did
+        const profile = SetupEmployeeKiva.fetchValues('profiles/profile.json');
+        res = await this.http.requestWithRetry({
+            method: 'POST',
+            url: this.selfUrl + '/v1/agent/publicize-did',
+            data: {
+                did: profile.did
+            }
+        });
+        Logger.log(res.data);
 
         // steward: create employee schema
         const schema = SetupEmployeeKiva.fetchValues('profiles/employee.schema.json');

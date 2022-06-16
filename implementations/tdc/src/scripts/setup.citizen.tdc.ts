@@ -7,10 +7,6 @@ import { HttpService } from '@nestjs/axios';
  * Convenience script to setup the TDC agent to issue a citizen credential
  * Note this expects the steward controller is running
  * TODO make robust to different existing states
- *
- * Currently this requires 2 different ways of running for dev and prod - eventually we should get this working in both
- *   Dev : docker exec -it tdc-controller ts-node /www/src/scripts/setup.citizen.tdc.ts
- *   Prod: docker exec -it tdc-controller node /www/scripts/setup.citizen.tdc.js
  */
 class SetupCitizenTDC {
 
@@ -26,7 +22,7 @@ class SetupCitizenTDC {
         try {
             await this.setup();
         } catch(e) {
-            Logger.log(e);
+            Logger.log(JSON.stringify(e));
             process.exit(1);
         }
     }

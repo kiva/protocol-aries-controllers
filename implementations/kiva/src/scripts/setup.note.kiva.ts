@@ -7,10 +7,6 @@ import { Logger } from '@nestjs/common';
  * Convenience script to setup the Kiva agent to issue employee credentials
  * Note this expects the steward controller is running
  * TODO make robust to different existing states
- *
- * Currently this requires 2 different ways of running for dev and prod - eventually we should get this working in both
- *   Dev : docker exec -it kiva-controller ts-node /www/scripts/setup.note.kiva.ts
- *   Prod: docker exec -it kiva-controller node /www/scripts/setup.note.kiva.js
  */
 class SetupNoteKiva {
 
@@ -26,7 +22,7 @@ class SetupNoteKiva {
         try {
             await this.setup();
         } catch(e) {
-            Logger.log(e);
+            Logger.log(JSON.stringify(e));
             process.exit(1);
         }
     }
