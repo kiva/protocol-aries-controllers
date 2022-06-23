@@ -1,8 +1,9 @@
-FROM node:14.15.1-alpine3.12
+FROM node:16.14.2-alpine3.15
 RUN mkdir www/
 WORKDIR www/
-RUN npm install -g ts-node
 ADD package.json package-lock.json ./
+RUN npm config set fetch-retry-mintimeout 20000
+RUN npm config set fetch-retry-maxtimeout 120000
 RUN npm install
 ADD . .
 CMD [ "npm", "run", "start" ]

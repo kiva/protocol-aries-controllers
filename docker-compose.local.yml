@@ -9,8 +9,7 @@ networks:
       ipam:
         driver: default
         config:
-          -
-            subnet: 10.0.0.0/24
+          - subnet: 10.0.0.0/24
 
 services:
     protocol-fsp-db:
@@ -54,21 +53,6 @@ services:
             - agency-network
         tty: true
 
-    ncra-controller:
-        env_file:
-            - ./implementations/ncra/.env
-        build:
-            context: ./implementations/ncra
-            dockerfile: Dockerfile
-        image: ncra-controller
-        container_name: ncra-controller
-        working_dir: /www
-        ports:
-            - "3012:3012"
-        networks:
-            - agency-network
-        tty: true
-
     fsp-controller:
         env_file:
             - ./implementations/fsp/.env
@@ -77,13 +61,13 @@ services:
             dockerfile: Dockerfile
         image: fsp-controller
         container_name: fsp-controller
-        working_dir: /www
         ports:
             - "3013:3013"
+        expose:
+            - "3013"
         networks:
             - agency-network
         depends_on:
-            - ncra-controller
             - protocol-fsp-db
         tty: true
 
@@ -95,9 +79,8 @@ services:
             dockerfile: Dockerfile
         image: tdc-controller
         container_name: tdc-controller
-        working_dir: /www
         depends_on:
-            -   protocol-tdc-db
+            - protocol-tdc-db
         ports:
             - "3015:3015"
         networks:

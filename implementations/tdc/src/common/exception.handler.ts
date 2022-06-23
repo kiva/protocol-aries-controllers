@@ -1,12 +1,12 @@
-import { ProtocolException } from 'protocol-common/protocol.exception';
-import { ProtocolErrorCode } from 'protocol-common/protocol.errorcode';
-import { Logger } from 'protocol-common/logger';
+import { ProtocolErrorCode, ProtocolException } from 'protocol-common';
+import { Logger } from '@nestjs/common';
 
 
 export class ExceptionHandler {
     /**
      * Evaluate e and determine which exception we want to throw instead.  We evaluate e because it os most likely
      * an acapy error and the UI needs a better way of determining the error.
+     *
      * @param e
      */
     public static evaluateAndThrow(e: any) {
@@ -18,7 +18,7 @@ export class ExceptionHandler {
                 throw new ProtocolException(ProtocolErrorCode.PROOF_FAILED_VERIFICATION, 'connection not established or missing');
             }
         }
-        Logger.warn(`unrecognized error ${e.message}`, e);
+        Logger.warn(`unrecognized error ${e.message as string}`, e);
         throw new ProtocolException(ProtocolErrorCode.INTERNAL_SERVER_ERROR, e.message);
     }
 }

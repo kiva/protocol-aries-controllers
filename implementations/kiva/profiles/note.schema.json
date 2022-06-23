@@ -1,0 +1,38 @@
+{
+    "DEFAULT": {
+        "schema_name": "Note",
+        "comment": "Kiva Marketplace credit promo code container",
+        "credential_proposal": {
+            "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview"
+        },
+        "attributes": [
+            "code",
+            "value",
+            "issued",
+            "expiry"
+        ]
+    },
+    "LOCAL": {
+        "schema_version": "0.0.1",
+        "schema_issuer_did": "Th7MpTaRZVRYnPiabds81Y",
+        "schema_id": "Th7MpTaRZVRYnPiabds81Y:2:Note:0.0.1"
+    },
+    "DEV": {
+        "schema_version": "0.0.1",
+        "schema_issuer_did": "McP1XxbNgbWL1ZNgQQB9YL",
+        "schema_id": "McP1XxbNgbWL1ZNgQQB9YL:2:Note:0.0.1"
+    },
+    "QA": {
+        "schema_version": "0.0.1",
+        "schema_issuer_did": "McP1XxbNgbWL1ZNgQQB9YL",
+        "schema_id": "McP1XxbNgbWL1ZNgQQB9YL:2:Note:0.0.1"
+    },
+    "SAND": {
+        "schema_version": "0.0.1",
+        "schema_issuer_did": "3bymcHbJGvAG77FuAB3hZh",
+        "schema_id": "3bymcHbJGvAG77FuAB3hZh:2:Note:0.0.1"
+    },
+    "PROD": {
+
+    }
+}

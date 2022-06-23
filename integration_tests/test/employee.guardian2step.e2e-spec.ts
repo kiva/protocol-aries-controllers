@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { inspect } from 'util';
 import { readFileSync } from 'fs';
-import { ProtocolErrorCode } from 'protocol-common/protocol.errorcode';
+import { ProtocolErrorCode } from 'protocol-common';
 
 /**
  * Test the issuing and verifying of employee credentials for guardianship
@@ -16,6 +16,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
     let fingerprintVerify: string;
     let credExId: string;
     const phoneNumber = '+16282185460'; // Test twilio number
+    const photo = '89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da6364f8ffbf1e000584027fc25b1e2a00000000';
 
     const delayFunc = (ms: number) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -23,10 +24,11 @@ describe('Full system issue and verify flows for employee credentials', () => {
 
     beforeAll(() => {
         // Note that the register endpoint expects images hex encoded, and the kyc endpoint base64
-        fingerprintEnroll = readFileSync('./images/fingerprint3.png').toString('hex');
-        fingerprintVerify = readFileSync('./images/fingerprint3.png').toString('base64');
+        fingerprintEnroll = readFileSync('./images/fingerprint.png').toString('hex');
+        fingerprintVerify = readFileSync('./images/fingerprint.png').toString('base64');
         // We use email as the employees unique identifier so needs to be unique
-        const id = 1000000 + parseInt(Date.now().toString().substr(7, 6), 10); // Predictable and unique exact 7 digits that doesn't start with 0
+        // This gives us a predictable and unique exact 7 digits that doesn't start with 0
+        const id = 1000000 + parseInt(Date.now().toString().substr(7, 6), 10);
         email = `company${id}@email.com`;
         jest.setTimeout(60000);
     });
@@ -60,7 +62,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.id).toBeDefined();
                     expect(res.body.connectionData).toBeDefined();
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -84,14 +86,14 @@ describe('Full system issue and verify flows for employee credentials', () => {
             },
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/guardian/verify`)
+            .post('/v2/api/guardian/verify')
             .send(data)
             .expect((res) => {
                 try {
                     expect(res.status).toBe(400);
                     expect(res.body.code).toBe(ProtocolErrorCode.PROOF_FAILED_UNFULFILLED);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -108,7 +110,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                         companyEmail: email
                     }
                 },
-                params: {     
+                params: {
                     image: fingerprintVerify,
                     position: 1,
                 },
@@ -121,7 +123,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                 team: 'Engineering',
                 hireDate: '1420070400', // 1/1/2015
                 officeLocation: 'Cloud',
-                'photo~attach': '89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da6364f8ffbf1e000584027fc25b1e2a00000000',
+                'photo~attach': photo,
                 type: 'Staff',
                 endDate: '',
                 phoneNumber
@@ -137,7 +139,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.agentData.credential_exchange_id).toBeDefined();
                     credExId = res.body.agentData.credential_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -154,21 +156,21 @@ describe('Full system issue and verify flows for employee credentials', () => {
                         companyEmail: email
                     }
                 },
-                params: {     
+                params: {
                     image: fingerprintVerify,
                     position: 1,
                 },
             },
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/guardian/verify`)
+            .post('/v2/api/guardian/verify')
             .send(data)
             .expect((res) => {
                 try {
                     expect(res.status).toBe(201);
                     expect(res.body.companyEmail).toBe(email);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -181,13 +183,13 @@ describe('Full system issue and verify flows for employee credentials', () => {
             publish: true
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/revoke`)
+            .post('/v2/api/revoke')
             .send(data)
             .expect((res) => {
                 try {
                     expect(res.status).toBe(201);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -204,25 +206,26 @@ describe('Full system issue and verify flows for employee credentials', () => {
                         companyEmail: email
                     }
                 },
-                params: {     
+                params: {
                     image: fingerprintVerify,
                     position: 1,
                 },
             },
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/guardian/verify`)
+            .post('/v2/api/guardian/verify')
             .send(data)
             .expect((res) => {
                 try {
                     expect(res.status).toBe(400);
                     expect(res.body.code).toBe(ProtocolErrorCode.PROOF_FAILED_VERIFICATION);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
     });
 
-    // TODO ProofFailedNoResponse: There's not a great way to test this error case, it's more of a catch all for when there's an issue with the holder's agent
+    // TODO ProofFailedNoResponse: There's not a great way to test this error case, it's more of a catch all for when there's an issue with the
+    //  holder's agent
 });

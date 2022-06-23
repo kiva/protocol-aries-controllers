@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import cryptoRandomString from 'crypto-random-string';
-import { ProtocolValidationPipe } from 'protocol-common/validation/protocol.validation.pipe';
-import { FspService } from './fsp.service';
-import { RegisterOnetimeKeyDto } from './dto/register.onetimeKey.dto';
-import { RegisterIssueDto } from './dto/register.issue.dto';
+import { FspService } from './fsp.service.js';
+import { RegisterOnetimeKeyDto } from './dto/register.onetimeKey.dto.js';
+import { RegisterIssueDto } from './dto/register.issue.dto.js';
+import { ProtocolValidationPipe } from 'protocol-common/validation';
+import { randomHexString } from 'protocol-common';
 
 /**
  * toThink()
@@ -29,6 +29,7 @@ export class FspController {
     /**
      * Connect FSP to TDC, which will result in credentials being generated that will
      * permit the FSP to work with the TDC
+     *
      * @param body
      */
     @Post('/register')
@@ -40,6 +41,7 @@ export class FspController {
     /**
      * FSP sends a value which should be unique and not used previously to the TDC.  The TDC
      * saves this value which the TDC will use to pair with a TRO.
+     *
      * @param body
      */
     @Post('/register/onetimekey')
@@ -51,10 +53,7 @@ export class FspController {
      * Fun helper function that will assist FSP in creating one time use values.
      */
     @Get('/register/onetimekey')
-    async getOneTimeKey(): Promise<any> {
-        return new Promise<any>((resolve) => {
-            // @ts-ignore
-            resolve(cryptoRandomString({length: 32, type: 'hex'}));
-        });
+    getOneTimeKey(): any {
+        return randomHexString(32);
     }
 }

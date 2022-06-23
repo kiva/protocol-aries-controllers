@@ -4,36 +4,44 @@
   "private": true,
   "description": "Integration tests for Kiva Protocol microservices",
   "license": "none",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kiva/protocol.git"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
-    "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix",
-    "test": "node -r dotenv/config node_modules/.bin/jest --runInBand"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "node -r dotenv/config --experimental-vm-modules node_modules/.bin/jest --runInBand --forceExit"
   },
   "dependencies": {
-    "crypto-random-string": "^3.3.1",
-    "protocol-common": "^0.1.47",
-    "typescript": "^4.2.3"
+    "@nestjs/common": "^8.2.0",
+    "protocol-common": "^1.1.3",
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
-    "@types/supertest": "^2.0.10",
-    "dotenv": "^8.2.0",
-    "jest": "^26.6.3",
-    "kill-port": "^1.6.1",
-    "prettier": "^2.2.1",
+    "@types/jest": "^27.5.1",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "dotenv": "^9.0.2",
+    "eslint": "^8.12.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsdoc": "^38.1.4",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "jest": "^27.5.1",
     "supertest": "^6.1.3",
-    "ts-jest": "^26.5.3",
-    "tsconfig-paths": "^3.9.0",
-    "tslint": "^6.1.3"
+    "ts-jest": "^27.1.5"
   },
   "jest": {
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "globals": {
-      "factories": {}
+      "factories": {},
+      "ts-jest": {
+        "useESM": true
+      }
     },
     "moduleFileExtensions": [
       "js",
@@ -41,7 +49,7 @@
       "ts"
     ],
     "rootDir": "test",
-    "testRegex": ".e2e-spec.ts$",
+    "testRegex": ".(e2e-spec|spec).ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },

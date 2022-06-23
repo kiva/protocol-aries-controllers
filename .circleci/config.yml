@@ -12,14 +12,21 @@ jobs:
     steps:
       - checkout
       - run:
-          name: setup and lint fsp (todo tests)
+          name: setup and lint FSP
           command: |
             cd implementations/fsp
             npm install
             npm run lint
             npm run build
       - run:
-          name: setup and lint TDC (todo tests)
+          name: setup and lint Kiva
+          command: |
+            cd implementations/kiva
+            npm install
+            npm run lint
+            npm run build
+      - run:
+          name: setup and lint TDC
           command: |
             cd implementations/tdc
             npm install
@@ -45,16 +52,14 @@ jobs:
       - run:
           name: Setup implementations
           command: |
-            cp implementations/fsp/dummy.env implementations/fsp/.env 
-            cp implementations/tdc/dummy.env implementations/tdc/.env
-            cp integration_tests/dummy.env integration_tests/.env
+            ./scripts/dummy_env.sh
             docker pull bcgovimages/aries-cloudagent:py36-1.16-1_0.7.1
       - run:
-          name: Start dependencies docker compose
+          name: Start docker-compose
           command: |
-            docker-compose -f docker-compose.dep.yml build
-            docker-compose -f docker-compose.dep.yml up -d
-            docker-compose -f docker-compose.dep.yml logs
+            docker-compose -f docker-compose.ci.yml build
+            docker-compose -f docker-compose.ci.yml up -d
+            docker-compose -f docker-compose.ci.yml logs
       - run:
           name: Setup integration tests
           command: |
@@ -65,24 +70,14 @@ jobs:
           command: |
             sleep 5
             ./scripts/healthcheck.sh http://localhost:8081/healthz
-      - run:
-          name: Start main docker compose
-          command: |
-            docker-compose -f docker-compose.ci.yml build
-            docker-compose -f docker-compose.ci.yml up -d
-            docker-compose -f docker-compose.ci.yml logs
-      - run:
-          name: Wait for readiness
-          command: |
-            ./scripts/healthcheck.sh http://localhost:3011/healthz
             sleep 30
+            ./scripts/healthcheck.sh http://localhost:3011/healthz
       - run:
           name: Run setup scripts
           command: |
             if ! ./scripts/prod_setup.sh ; then
               echo "Setup failed. Server logs:";
               docker-compose -f docker-compose.ci.yml logs;
-              docker-compose -f docker-compose.dep.yml logs;
               exit 1;
             fi
       - run:
@@ -93,7 +88,6 @@ jobs:
               echo "Tests failed. Server logs:";
               cd ..
               docker-compose -f docker-compose.ci.yml logs;
-              docker-compose -f docker-compose.dep.yml logs;
               exit 1;
             fi
 
@@ -120,8 +114,8 @@ jobs:
           name: Get ACAPy
           command: docker pull bcgovimages/aries-cloudagent:py36-1.16-1_0.7.1
       - run:
-          name: Override for fsp-controller, kiva-controller, ncra-controller, and tdc-controller images
-          command: ./scripts/setup_override.sh -r protocol-aries -s fsp-controller,kiva-controller,ncra-controller,tdc-controller -e scripts/dummy_env.sh
+          name: Override for fsp-controller, kiva-controller, and tdc-controller images
+          command: ./scripts/setup_override.sh -r protocol-aries-controllers -s fsp-controller,kiva-controller,tdc-controller -e scripts/dummy_env.sh
       - run:
           name: Start docker compose and wait for readiness
           command: |
@@ -209,6 +203,20 @@ workflows:
           image: kivaprotocol/fsp-controller
           tag: << pipeline.git.tag >>,latest
       - docker/publish:
+          name: docker/publish-kiva-controller
+          requires:
+            - protocol-integration-tests
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          update-description: true
+          docker-context: implementations/kiva
+          dockerfile: implementations/kiva/Dockerfile.production
+          image: kivaprotocol/kiva-controller
+          tag: << pipeline.git.tag >>,latest
+      - docker/publish:
           name: docker/publish-tdc-controller
           requires:
               - protocol-integration-tests
@@ -236,6 +244,20 @@ workflows:
           tag: << pipeline.git.tag >>
           service: fsp-controller
           helm-charts: implementations/fsp/helm-config
+      - push-to-dev:
+          name: push-to-dev-kiva-controller
+          context:
+            - continuous-deployment-dev
+          requires:
+            - docker/publish-kiva-controller
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          tag: << pipeline.git.tag >>
+          service: kiva-controller
+          helm-charts: implementations/kiva/helm-config
       - push-to-dev:
           name: push-to-dev-tdc-controller
           context:

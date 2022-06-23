@@ -1,7 +1,8 @@
-import { HttpModule, Module } from '@nestjs/common';
-import { AgentModule } from 'aries-controller/agent/agent.module';
-import { DataService } from '../../persistence/data.service';
-import { TransactionMessageResponseFactory } from './transaction.message.response.factory';
+import { Module } from '@nestjs/common';
+import { DataService } from '../../persistence/data.service.js';
+import { TransactionMessageResponseFactory } from './transaction.message.response.factory.js';
+import { AgentModule } from 'aries-controller';
+import { ProtocolHttpModule } from 'protocol-common';
 
 
 /**
@@ -10,12 +11,13 @@ import { TransactionMessageResponseFactory } from './transaction.message.respons
 @Module({
     imports: [
         AgentModule,
-        HttpModule,
+        ProtocolHttpModule,
     ],
     controllers: [],
     providers: [
         TransactionMessageResponseFactory,
-        DataService],
+        DataService
+    ],
     exports: [TransactionMessageResponseFactory]
 })
 export class TransactionMessagingModule {}

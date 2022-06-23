@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class FspTroConnectionCreate1611257923775 implements MigrationInterface {
 
@@ -17,7 +17,7 @@ export class FspTroConnectionCreate1611257923775 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `DROP TABLE IF EXISTS fsp_tro_connection;`
+            'DROP TABLE IF EXISTS fsp_tro_connection;'
         );
     }
 }

@@ -37,6 +37,23 @@ services:
             agency-network:
                 ipv4_address: 10.0.0.2
 
+    protocol-identity-wallet-db:
+        image: postgres:11
+        container_name: protocol-identity-wallet-db
+        command: postgres -c logging_collector=on -c log_destination=stderr
+        volumes:
+            - ./integration_tests/resources/identity_wallet:/docker-entrypoint-initdb.d/
+        networks:
+            - agency-network
+        depends_on:
+            - protocol-indy-pool
+        tty: true
+        environment:
+            - POSTGRES_HOST=protocol-identity-wallet-db
+            - POSTGRES_DB=wallets
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=dbpass
+
     aries-guardianship-agency:
         image: kivaprotocol/aries-guardianship-agency:latest
         container_name: aries-guardianship-agency
@@ -51,6 +68,7 @@ services:
             - agency-network
         depends_on:
             - protocol-indy-pool
+            - protocol-identity-wallet-db
         tty: true
         privileged: true
         environment:
@@ -68,23 +86,6 @@ services:
             - TAILS_URL=http://tails-server:6543
             - ACAPY_ADMIN_API_KEY=adminApiKey
 
-    protocol-identity-wallet-db:
-        image: postgres:11
-        container_name: protocol-identity-wallet-db
-        command: postgres -c logging_collector=on -c log_destination=stderr
-        volumes:
-            - ./integration_tests/resources/identity_wallet:/docker-entrypoint-initdb.d/
-        networks:
-            - agency-network
-        depends_on:
-            - aries-guardianship-agency
-        tty: true
-        environment:
-            - POSTGRES_HOST=protocol-identity-wallet-db
-            - POSTGRES_DB=wallets
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=dbpass
-
     protocol-auth-db:
         image: postgres:11
         container_name: protocol-auth-db
@@ -92,7 +93,7 @@ services:
         networks:
             - agency-network
         depends_on:
-            - protocol-identity-wallet-db
+            - protocol-indy-pool
         tty: true
         environment:
             - POSTGRES_DB=authdb
@@ -127,34 +128,16 @@ services:
         image: postgres:11
         container_name: protocol-identity-template-db
         restart: always
-        volumes:
-          - ./integration_tests/resources/identity_template:/docker-entrypoint-initdb.d/
         networks:
-          - agency-network
+            - agency-network
         depends_on:
-          - aries-key-guardian
+            - protocol-indy-pool
         tty: true
         environment:
             - POSTGRES_HOST=protocol-identity-template-db
             - POSTGRES_DB=identitytemplatedb
             - POSTGRES_USER=dbuser
             - POSTGRES_PASSWORD=dbpass
-
-    protocol-identity-db:
-        image: postgres:11
-        container_name: protocol-identity-db
-        command: postgres
-        volumes:
-            - ./implementations/ncra/identity_db/insert-scripts:/insert-scripts
-            - ./implementations/ncra/identity_db/create-scripts:/docker-entrypoint-initdb.d/
-        shm_size: '2gb'
-        env_file:
-            - ./implementations/ncra/.env
-        networks:
-            - agency-network
-        depends_on:
-            - protocol-identity-template-db
-        tty: true
 
     protocol-bio-auth-service:
         image: kivaprotocol/bioauth:latest
@@ -163,8 +146,8 @@ services:
             - "8081:8080"
         networks:
             - agency-network
-        depends_on: 
-            - protocol-identity-db
+        depends_on:
+            - protocol-identity-template-db
         tty: true
         environment:
             - POSTGRES_HOST=protocol-identity-template-db
@@ -183,12 +166,12 @@ services:
         image: kivaprotocol/tails-server:latest
         container_name: tails-server
         ports:
-        - 6543:6543
+            - "6543:6543"
         networks:
-        - agency-network
+            - agency-network
         depends_on:
-        - protocol-indy-pool
-        environment: 
+            - protocol-indy-pool
+        environment:
             - MSYS_NO_PATHCONV=1
             - DOCKERHOST=${APPLICATION_URL:-$$(docker run --rm --net=host eclipse/che-ip)}
             - GENESIS_URL=${GENESIS_URL:-http://$DOCKERHOST:9000/genesis}
@@ -215,7 +198,7 @@ services:
         ports:
           - "3020:3020"
           - "3021:3021"
-        expose: 
+        expose:
           - "3020"
           - "3021"
         volumes:

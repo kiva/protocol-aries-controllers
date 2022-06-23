@@ -1,9 +1,9 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ProtocolValidationPipe } from 'protocol-common/validation/protocol.validation.pipe';
-import { RegisterService } from './register.service';
-import { RegisterIssueDto } from './dto/register.issue.dto';
-import { RegisterOnetimeKeyDto } from './dto/register.onetimeKey.dto';
+import { RegisterService } from './register.service.js';
+import { RegisterIssueDto } from './dto/register.issue.dto.js';
+import { RegisterOnetimeKeyDto } from './dto/register.onetimeKey.dto.js';
+import { ProtocolValidationPipe } from 'protocol-common/validation';
 
 /**
  * toThink()

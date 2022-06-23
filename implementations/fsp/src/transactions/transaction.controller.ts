@@ -1,12 +1,12 @@
-import { Controller, Post, Get, Param, Body, Headers } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ProtocolValidationPipe } from 'protocol-common/validation/protocol.validation.pipe';
-import { TransactionService } from './transaction.service';
-import { RegisterTdcDto } from './dtos/register.tdc.dto';
-import { RegisterTdcResponseDto } from './dtos/register.tdc.response.dto';
-import { RegisterOneTimeKeyDto } from './dtos/register.one.time.key.dto';
-import { TransactionReportRequestDto } from './dtos/transaction.report.request.dto';
-import { CreateTransactionDto } from './dtos/create.transaction.dto';
+import { TransactionService } from './transaction.service.js';
+import { RegisterTdcDto } from './dtos/register.tdc.dto.js';
+import { RegisterTdcResponseDto } from './dtos/register.tdc.response.dto.js';
+import { RegisterOneTimeKeyDto } from './dtos/register.one.time.key.dto.js';
+import { TransactionReportRequestDto } from './dtos/transaction.report.request.dto.js';
+import { CreateTransactionDto } from './dtos/create.transaction.dto.js';
+import { ProtocolValidationPipe } from 'protocol-common/validation';
 
 /**
  * Exposing endpoints the FSP would call to interact with the TDC
@@ -24,6 +24,7 @@ export class TransactionController {
 
     /**
      * For the FSP to make an aries compatible connection to the TDC
+     *
      * @param body
      */
     @Post('/register')
@@ -51,6 +52,7 @@ export class TransactionController {
     /**
      *     helper method that probably should be replaced somehow
      *     if we keep it around it should only return either FSP or the TRO id for the key inputted
+     *
      * @param key
      */
     @Get('ids/:key')

@@ -1,0 +1,24 @@
+{
+    "DEFAULT": {
+        "agent_id": "kiva-agent",
+        "label": "Kiva",
+        "image_url": "http://www-kiva-org.global.ssl.fastly.net/cms/kiva_logo_2.png",
+        "use_tails_server": true,
+        "institution": "kiva"
+    },
+    "LOCAL": {
+        "did": "Th7MpTaRZVRYnPiabds81Y"
+    },
+    "DEV": {
+        "did": "McP1XxbNgbWL1ZNgQQB9YL"
+    },
+    "QA": {
+        "did": "McP1XxbNgbWL1ZNgQQB9YL"
+    },
+    "SAND": {
+        "did": "3bymcHbJGvAG77FuAB3hZh"
+    },
+    "PROD": {
+
+    }
+}

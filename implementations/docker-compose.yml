@@ -39,10 +39,8 @@ services:
         build:
             context: ./fsp
             dockerfile: Dockerfile
-        command: npm run start:debug
         image: fsp-controller
         container_name: fsp-controller
-        working_dir: /www
         ports:
             - "3013:3013"
         volumes:
@@ -53,7 +51,6 @@ services:
             - agency-network
         depends_on:
             - protocol-fsp-db
-            - kiva-controller
         tty: true
 
     tdc-controller:
@@ -62,10 +59,8 @@ services:
         build:
             context: ./tdc
             dockerfile: Dockerfile
-        command: npm run start:debug
         image: tdc-controller
         container_name: tdc-controller
-        working_dir: /www
         ports:
             - "3015:3015"
         volumes:

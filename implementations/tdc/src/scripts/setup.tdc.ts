@@ -1,16 +1,12 @@
-import { Logger } from 'protocol-common/logger';
-import { HttpService } from '@nestjs/common';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
 import { readFileSync } from 'fs';
+import { ProtocolHttpService } from 'protocol-common';
+import { HttpService } from '@nestjs/axios';
+import { Logger } from '@nestjs/common';
 
 /**
  * Convenience script to setup the TDC agent for the SL context
  * Note that right now we need to run this script first fully, before spinning up the ncra controller and running the ncra script
  * Note this expects the steward controller is running
- *
- * Currently this requires 2 different ways of running for dev and prod - eventually we should get this working in both
- *   Dev : docker exec -it tdc-controller ts-node /www/src/scripts/setup.tdc.ts
- *   Prod: docker exec -it tdc-controller node /www/scripts/setup.tdc.js
  */
 class SetupTDC {
 
@@ -29,7 +25,7 @@ class SetupTDC {
         try {
             await this.setup();
         } catch(e) {
-            Logger.log(e);
+            Logger.log(JSON.stringify(e));
             process.exit(1);
         }
     }
@@ -45,21 +41,21 @@ class SetupTDC {
             // it lives in two different places so attempt to read it from production
             // location first and then local environment next.
             try {
-                this.profiles = this.fetchNames('scripts/credentials');
+                this.profiles = SetupTDC.fetchNames('scripts/credentials');
             }
             catch {
-                this.profiles = this.fetchNames('src/scripts/credentials');
+                this.profiles = SetupTDC.fetchNames('dist/scripts/credentials');
             }
         } catch (e) {
-            Logger.warn(`failed to read profiles from file`, e);
+            Logger.warn('failed to read profiles from file', e);
             throw e;
         }
 
-        Logger.debug(`read profiles from file`, this.profiles);
+        Logger.debug('read profiles from file', this.profiles);
 
         // steward: publicize did
         let res;
-        const profile = this.fetchValues('profiles/profile.json');
+        const profile = SetupTDC.fetchValues('profiles/profile.json');
 
         try {
             res = await this.http.requestWithRetry({
@@ -67,7 +63,7 @@ class SetupTDC {
                 url: this.stewardUrl + '/v1/steward/endorser',
                 data: profile
             });
-            Logger.log(`endorser`, res.data);
+            Logger.log('endorser', res.data);
         } catch (e) {
             Logger.error('endorsing TDC DID failed ', e.message);
             process.exit(1);
@@ -92,8 +88,8 @@ class SetupTDC {
             if (!name || name === '' || name.length === 0)
                 continue;
 
-            const schema: string = `${name}.schema.def.json`;
-            const content = this.fetchValues(`profiles/${schema}`);
+            const schema = `${name}.schema.def.json`;
+            const content = SetupTDC.fetchValues(`profiles/${schema}`);
             const res = await this.http.requestWithRetry({
                 method: 'POST',
                 url: this.selfUrl + '/v1/steward/schema',
@@ -108,8 +104,8 @@ class SetupTDC {
             if (!name || name === '' || name.length === 0)
                 continue;
 
-            const credential: string = `${name}.cred.def.json`;
-            const content = this.fetchValues(`profiles/${credential}`);
+            const credential = `${name}.cred.def.json`;
+            const content = SetupTDC.fetchValues(`profiles/${credential}`);
             const res = await this.http.requestWithRetry({
                 method: 'POST',
                 url: this.selfUrl + '/v1/issuer/cred-def',
@@ -119,17 +115,18 @@ class SetupTDC {
         }
     }
 
-    private fetchValues(fileName: string) {
+    private static fetchValues(fileName: string) {
         const fileJson = JSON.parse(readFileSync(`/www/${fileName}`).toString());
-        const envValues = {...fileJson.DEFAULT, ...fileJson[process.env.NODE_ENV]};
-        return envValues;
+        return {...fileJson.DEFAULT, ...fileJson[process.env.NODE_ENV]};
     }
 
-    private fetchNames(fileName: string): string[] {
+    private static fetchNames(fileName: string): string[] {
         const data = readFileSync(`/www/${fileName}`).toString();
-        Logger.log(`data read is`, data);
+        Logger.log('data read is', data);
         return data.split('\n');
     }
 }
 
-(new SetupTDC()).run();
+(new SetupTDC()).run().catch(e => {
+    Logger.error(e.message);
+});

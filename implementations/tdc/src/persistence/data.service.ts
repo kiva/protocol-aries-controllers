@@ -1,15 +1,15 @@
 import { InjectConnection } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { OneTimeKey } from './one.time.key';
-import { FspTroConnection } from './fsp.tro.connection';
-import { PendingTransaction } from './pending.transaction';
+import { OneTimeKey } from './entities/one.time.key.js';
+import { FspTroConnection } from './entities/fsp.tro.connection.js';
+import { PendingTransaction } from './entities/pending.transaction.js';
 
 
-/*
-    This class is the public interface to retrieving and saving records into our persistence
-    layer (which happens to be postgres for now)
-*/
+/**
+ * This class is the public interface to retrieving and saving records into our persistence
+ * layer (which happens to be postgres for now)
+ */
 @Injectable()
 export class DataService {
     constructor(
@@ -17,7 +17,7 @@ export class DataService {
     ) { }
 
     public async getOneTimeKeyRecord(key: string): Promise<OneTimeKey> {
-        return await this.connection.getRepository(OneTimeKey).findOne({one_time_key: key});
+        return await this.connection.getRepository(OneTimeKey).findOne({where: {one_time_key: key}});
     }
 
     public async saveOneTimeKeyRecord(record: OneTimeKey) : Promise<any> {
@@ -29,15 +29,15 @@ export class DataService {
     }
 
     public async getFspTroConnection(tdcFspId: string, troTdcId: string): Promise<FspTroConnection> {
-        return await this.connection.getRepository(FspTroConnection).findOne({tdc_fsp_id: tdcFspId, tdc_tro_id: troTdcId});
+        return await this.connection.getRepository(FspTroConnection).findOne({where: {tdc_fsp_id: tdcFspId, tdc_tro_id: troTdcId}});
     }
 
     public async getFspTroConnectionByFspId(tdcFspId: string): Promise<FspTroConnection> {
-        return await this.connection.getRepository(FspTroConnection).findOne({tdc_fsp_id: tdcFspId });
+        return await this.connection.getRepository(FspTroConnection).findOne({where: {tdc_fsp_id: tdcFspId }});
     }
 
     public async getFspTroConnectionByTroConnectionId(troConnectionId: string): Promise<FspTroConnection> {
-        return await this.connection.getRepository(FspTroConnection).findOne({tro_connection_id: troConnectionId });
+        return await this.connection.getRepository(FspTroConnection).findOne({where: {tro_connection_id: troConnectionId }});
     }
 
     public async savePendingTransaction(record: PendingTransaction): Promise<any> {
@@ -45,6 +45,6 @@ export class DataService {
     }
 
     public async getPendingTransaction(transactionId: string): Promise<PendingTransaction> {
-        return await this.connection.getRepository(PendingTransaction).findOne({transaction_id : transactionId});
+        return await this.connection.getRepository(PendingTransaction).findOne({where: {transaction_id : transactionId}});
     }
 }

@@ -1,40 +1,39 @@
-import { Logger } from 'protocol-common/logger';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
-import { SecurityUtility } from 'protocol-common/security.utility';
-import { AgentService } from 'aries-controller/agent/agent.service';
-import { TransactionReportRequest } from 'aries-controller/agent/messaging/transaction.report.request';
-import { VerificationItem } from 'aries-controller/agent/messaging/verification.item';
-import { DataService } from '../../persistence/data.service';
-import { FspTroConnection } from '../../persistence/fsp.tro.connection';
-import { IBasicMessageHandler } from './basic.message.handler';
-import { TransactionMessageStatesEnum } from './transaction.message.states.enum';
-import { TxReportResponseDto } from '../dtos/tx.report.response.dto';
+import { DataService } from '../../persistence/data.service.js';
+import { FspTroConnection } from '../../persistence/entities/fsp.tro.connection.js';
+import { IBasicMessageHandler } from './basic.message.handler.js';
+import { TransactionMessageStatesEnum } from './transaction.message.states.enum.js';
+import { TxReportResponseDto } from '../dtos/tx.report.response.dto.js';
+import { AgentService, TransactionReportRequest, VerificationItem } from 'aries-controller';
+import { ProtocolHttpService, SecurityUtility } from 'protocol-common';
+import { Logger } from '@nestjs/common';
 
 
 export class ReportMessageHandler implements IBasicMessageHandler {
-    constructor(private readonly agentService: AgentService,
-                private readonly agentId: string,
-                private readonly adminApiKey: string,
-                private readonly connectionId: string,
-                private readonly dbAccessor: DataService,
-                private readonly http: ProtocolHttpService) {
-    }
+
+    constructor(
+      private readonly agentService: AgentService,
+      private readonly agentId: string,
+      private readonly adminApiKey: string,
+      private readonly connectionId: string,
+      private readonly dbAccessor: DataService,
+      private readonly http: ProtocolHttpService
+    ) {}
 
     public async respond(message: any): Promise<boolean> {
         if (message.state === TransactionMessageStatesEnum.COMPLETED) {
             const reportId = message.id;
-            Logger.debug(`'completed' transaction report ${reportId}`);
+            Logger.debug(`'completed' transaction report ${reportId as string}`);
             const rec: FspTroConnection = await this.dbAccessor.getFspTroConnectionByFspId(message.tdcFspId);
             const includedItems:  VerificationItem[] = [];
             const excludedItems: VerificationItem[] = [];
-            let previousHash: string = '';
-            const report = this.createTransactionReportRequestFromMessage(message.state, message.id,
+            let previousHash = '';
+            const report = ReportMessageHandler.createTransactionReportRequestFromMessage(message.state, message.id,
                  message.tdcFspId, message.transactions, undefined, undefined);
             for(const dataItem of report.transactions) {
-                Logger.debug(`dataItem:`, dataItem);
+                Logger.debug('dataItem:', dataItem);
                 const record: TxReportResponseDto = dataItem as TxReportResponseDto;
                 // Logger.debug(`order: ${record.order} hash ${record.hash} amount ${record.amount}`);
-                const reHash: string = this.generateHash(`${record.order}${record.hash}${previousHash}`);
+                const reHash: string = ReportMessageHandler.generateHash(`${record.order}${record.hash}${previousHash}`);
                 const item: VerificationItem = {
                     id: record.transactionId,
                     previousHash,
@@ -42,7 +41,7 @@ export class ReportMessageHandler implements IBasicMessageHandler {
                     reHash
                 };
 
-                if (true === this.isTransactionExpired(record)) {
+                if (true === ReportMessageHandler.isTransactionExpired()) {
                     // TODO.  once the requirements are defined, eval if the transaction has 'expired' and
                     // if so remove it from transactions and put relevant information in the excludedItems array
                     excludedItems.push(item);
@@ -59,9 +58,14 @@ export class ReportMessageHandler implements IBasicMessageHandler {
         return false;
     }
 
-    private createTransactionReportRequestFromMessage(state: string, id: string, tdcFspId: string, reportData?:any,
-                                                      included?:  VerificationItem[], excluded?: VerificationItem[]) : TransactionReportRequest<any>
-    {
+    private static createTransactionReportRequestFromMessage(
+      state: string,
+      id: string,
+      tdcFspId: string,
+      reportData?:any,
+      included?: VerificationItem[],
+      excluded?: VerificationItem[]
+    ) : TransactionReportRequest<any> {
         return new TransactionReportRequest<string>({
             id,
             state,
@@ -72,8 +76,15 @@ export class ReportMessageHandler implements IBasicMessageHandler {
         });
     }
 
-    private async sendReportMessage(connectionId: string, state: string, id: string, tdcFspId: string, reportData?:any,
-                                    included?:  VerificationItem[], excluded?: VerificationItem[]): Promise<any> {
+    private async sendReportMessage(
+      connectionId: string,
+      state: string,
+      id: string,
+      tdcFspId: string,
+      reportData?:any,
+      included?: VerificationItem[],
+      excluded?: VerificationItem[]
+    ): Promise<any> {
         const msg: TransactionReportRequest<any> = new TransactionReportRequest<any>({
             id,
             state,
@@ -86,13 +97,13 @@ export class ReportMessageHandler implements IBasicMessageHandler {
         return await this.agentService.sendBasicMessage(msg, connectionId);
     }
 
-    private isTransactionExpired(record: TxReportResponseDto): boolean {
+    private static isTransactionExpired(): boolean {
         // TODO.  once the requirements are defined, eval if the transaction has 'expired' and
         // if so remove it from transactions and put relevant information in the excludedItems array
         return false;
     }
 
-    private generateHash(hashableValue: string) : string {
+    private static generateHash(hashableValue: string) : string {
         return SecurityUtility.hash32(hashableValue);
     }
 }

@@ -1,7 +1,6 @@
 import request from 'supertest';
-import cryptoRandomString from 'crypto-random-string';
-import { ProtocolUtility } from 'protocol-common/protocol.utility';
-import { Logger } from 'protocol-common/logger';
+import { ProtocolUtility, randomHexString } from 'protocol-common';
+import { Logger } from '@nestjs/common';
 
 /**
  * The TDC test is a very specific test to make sure the pieces for the TDC work.
@@ -17,14 +16,13 @@ import { Logger } from 'protocol-common/logger';
 describe('Full TDC integration tests for issue and verify flows', () => {
     let holderId: string;
     let holderApiKey: string;
-    let invitation: any;
     let tdcInvitation: any;
     let citizenConnectionId: string;
     let fspConnectionId: string;
     let fspTdcId: string;
     let troTdcId: string;
     let reportId: string;
-    let oneTimeValue = cryptoRandomString({length: 32, type: 'hex'});
+    let oneTimeValue = randomHexString(32);
     const ariesGuardianUrl = 'http://localhost:3010';
     const fspControllerUrl = 'http://localhost:3013';
     const ariesGuardianApiKey = 'adminApiKey';
@@ -51,7 +49,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
         };
 
         return request(fspControllerUrl)
-            .post(`/v2/transaction/nonce`)
+            .post('/v2/transaction/nonce')
             .send(data)
             .expect((res) => {
                 expect(res.status).toBe(400);
@@ -74,7 +72,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
         };
 
         return request(process.env.TDC_CONTROLLER_URL)
-            .post(`/v2/register/onetimekey`)
+            .post('/v2/register/onetimekey')
             .send(data)
             .expect((res) => {
                 expect(res.status).toBe(400);
@@ -98,7 +96,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
         };
 
         return request(fspControllerUrl)
-            .post(`/v2/transaction/nonce`)
+            .post('/v2/transaction/nonce')
             .send(data)
             .expect((res) => {
                 expect(res.status).toBe(400);
@@ -121,7 +119,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
         };
 
         return request(process.env.TDC_CONTROLLER_URL)
-            .post(`/v2/register/onetimekey`)
+            .post('/v2/register/onetimekey')
             .send(data)
             .expect((res) => {
                 expect(res.status).toBe(400);
@@ -207,7 +205,6 @@ describe('Full TDC integration tests for issue and verify flows', () => {
             .expect(201)
             .expect((res) => {
                 holderId = res.body.agentId;
-                invitation = res.body.connectionData;
             });
     });
 
@@ -219,7 +216,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
         };
 
         return request(process.env.TDC_CONTROLLER_URL)
-            .post(`/v2/register`)
+            .post('/v2/register')
             // .set('x-api-key', holderApiKey)
             .send(data)
             .expect((res) => {
@@ -251,7 +248,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
             tdcEndpoint: 'http://tdc-controller:3015'
         };
         return request(fspControllerUrl)
-            .post(`/v2/transaction/nonce`)
+            .post('/v2/transaction/nonce')
             // .set('x-api-key', holderApiKey)
             .send(data)
             .expect((res) => {
@@ -266,7 +263,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
             oneTimeKey: oneTimeValue
         };
         return request(process.env.TDC_CONTROLLER_URL)
-            .post(`/v2/register/onetimekey`)
+            .post('/v2/register/onetimekey')
             // .set('x-api-key', holderApiKey)
             .send(data)
             .expect((res) => {
@@ -284,7 +281,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
             tdcEndpoint: 'http://tdc-controller:3015'
         };
         return request(fspControllerUrl)
-            .post(`/v2/transaction/report`)
+            .post('/v2/transaction/report')
             // .set('x-api-key', holderApiKey)
             .send(data)
             .expect((res) => {
@@ -295,7 +292,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
 
     it('FSP retrieves invalid transaction report', async () => {
         return request(fspControllerUrl)
-            .get(`/v2/transaction/report/invalidId/status`)
+            .get('/v2/transaction/report/invalidId/status')
             .expect((res) => {
                 expect(res.status).toBe(200);
                 expect(res.body.state).toBe('error');
@@ -309,7 +306,7 @@ describe('Full TDC integration tests for issue and verify flows', () => {
             .expect((res) => {
                 expect(res.status).toBe(200);
                 expect(res.body.state).toBe('error');
-                Logger.info(`/v2/transaction/report/${reportId}/status data`, res.body);
+                Logger.log(`/v2/transaction/report/${reportId}/status data`, res.body);
             });
     });
 

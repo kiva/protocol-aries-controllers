@@ -1,10 +1,10 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
-import { Logger } from 'protocol-common/logger';
+import { MigrationInterface, QueryRunner } from 'typeorm';
+import { Logger } from '@nestjs/common';
 
 export class TransactionsCreate1620222763813 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        Logger.info(`TransactionCreate1620222763813 Creating table`);
+        Logger.log('TransactionCreate1620222763813 Creating table');
         await queryRunner.query(`
             CREATE TABLE IF NOT EXISTS transactions (
                 id serial PRIMARY KEY,
@@ -17,9 +17,9 @@ export class TransactionsCreate1620222763813 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        Logger.info(`TransactionCreate1620222763813 dropping table`);
+        Logger.log('TransactionCreate1620222763813 dropping table');
         await queryRunner.query(
-            `DROP TABLE IF EXISTS transactions;`
+            'DROP TABLE IF EXISTS transactions;'
         );
     }
 

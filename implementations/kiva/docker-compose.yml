@@ -1,0 +1,26 @@
+# Spin up the kiva controller for development purposes
+#
+version: '3.5'
+
+networks:
+    agency-network:
+        external: true
+
+services:
+    kiva-controller:
+        env_file:
+            - .env
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: kiva-controller
+        container_name: kiva-controller
+        ports:
+            - "3011:3011"
+        volumes:
+            - ./:/www
+            # For dev purposes this simulates npm-link, since symbolic links on the mac won't work in the docker container
+            #- ../../../aries-controller/dist:/www/node_modules/aries-controller
+        networks:
+            - agency-network
+        tty: true

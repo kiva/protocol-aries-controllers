@@ -1,0 +1,440 @@
+{
+    "DEFAULT": {
+        "comment":"Demo-issued employee credential"
+    },
+    "LOCAL": {
+        "proof_request":{
+            "name":"DemoIssuedEmployee",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "companyEmail":{
+                    "name":"companyEmail",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "hireDate":{
+                    "name":"hireDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "currentTitle":{
+                    "name":"currentTitle",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "team":{
+                    "name":"team",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "officeLocation":{
+                    "name":"officeLocation",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "type":{
+                    "name":"type",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "endDate":{
+                    "name":"endDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "EbP4aYNeTHL6q385GuVpRV"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "DEV": {
+        "proof_request":{
+            "name":"KivaIssuedEmployee",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "companyEmail":{
+                    "name":"companyEmail",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "hireDate":{
+                    "name":"hireDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "currentTitle":{
+                    "name":"currentTitle",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "team":{
+                    "name":"team",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "officeLocation":{
+                    "name":"officeLocation",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "type":{
+                    "name":"type",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "endDate":{
+                    "name":"endDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "2MEMk5sErXBrXo82iAQdVE"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "QA": {
+        "proof_request":{
+            "name":"KivaIssuedEmployee",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "companyEmail":{
+                    "name":"companyEmail",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "hireDate":{
+                    "name":"hireDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "currentTitle":{
+                    "name":"currentTitle",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "team":{
+                    "name":"team",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "officeLocation":{
+                    "name":"officeLocation",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "type":{
+                    "name":"type",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "endDate":{
+                    "name":"endDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "JUiGETimM3zsE7AgC4s7Jd"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "SAND": {
+        "proof_request":{
+            "name":"KivaIssuedEmployee",
+            "version":"1.0.0",
+            "requested_attributes":{
+                "firstName":{
+                    "name":"firstName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "lastName":{
+                    "name":"lastName",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "companyEmail":{
+                    "name":"companyEmail",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "hireDate":{
+                    "name":"hireDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "currentTitle":{
+                    "name":"currentTitle",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "team":{
+                    "name":"team",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "officeLocation":{
+                    "name":"officeLocation",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "photo~attach":{
+                    "name":"photo~attach",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "type":{
+                    "name":"type",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "endDate":{
+                    "name":"endDate",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                },
+                "phoneNumber":{
+                    "name":"phoneNumber",
+                    "restrictions": [
+                        {
+                            "schema_name": "Employee",
+                            "issuer_did": "TmqUcxz4sXPrZpsgtq8dpi"
+                        }
+                    ]
+                }
+            },
+            "requested_predicates":{}
+        }
+    },
+    "PROD": {
+
+    }
+}

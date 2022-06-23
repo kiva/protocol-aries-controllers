@@ -1,27 +1,28 @@
-import { CreditTransaction } from 'aries-controller/agent/messaging/credit.transaction';
-import { Logger } from 'protocol-common/logger';
-import { ProtocolHttpService } from 'protocol-common/protocol.http.service';
-import { AgentService } from 'aries-controller/agent/agent.service';
-import { IBasicMessageHandler } from './basic.message.handler';
-import { TransactionMessageStatesEnum } from './transaction.message.states.enum';
-import { DataService } from '../../persistence/data.service';
-import { PendingTransaction } from '../../persistence/pending.transaction';
-import { FspTroConnection } from '../../persistence/fsp.tro.connection';
+import { IBasicMessageHandler } from './basic.message.handler.js';
+import { TransactionMessageStatesEnum } from './transaction.message.states.enum.js';
+import { DataService } from '../../persistence/data.service.js';
+import { PendingTransaction } from '../../persistence/entities/pending.transaction.js';
+import { FspTroConnection } from '../../persistence/entities/fsp.tro.connection.js';
+import { AgentService, CreditTransaction } from 'aries-controller';
+import { ProtocolHttpService } from 'protocol-common';
+import { Logger } from '@nestjs/common';
 
 
 export class TransactionMessageHandler implements IBasicMessageHandler {
-    constructor(private readonly agentService: AgentService,
-                private readonly agentId: string,
-                private readonly adminApiKey: string,
-                private readonly connectionId: string,
-                private readonly dbAccessor: DataService,
-                private readonly http: ProtocolHttpService) {
-    }
+
+    constructor(
+      private readonly agentService: AgentService,
+      private readonly agentId: string,
+      private readonly adminApiKey: string,
+      private readonly connectionId: string,
+      private readonly dbAccessor: DataService,
+      private readonly http: ProtocolHttpService
+    ) {}
 
     public async respond(message: any): Promise<boolean> {
         if (message.state === TransactionMessageStatesEnum.ACCEPTED) {
             const transactionId = message.id;
-            Logger.debug(`'accepted' transaction record ${transactionId}`);
+            Logger.debug(`'accepted' transaction record ${transactionId as string}`);
             const pendingTransaction: PendingTransaction = await this.dbAccessor.getPendingTransaction(transactionId);
             const rec: FspTroConnection = await this.dbAccessor.getFspTroConnectionByFspId(pendingTransaction.connection_key);
             await this.sendTransactionMessage(this.agentId, this.adminApiKey, rec.tro_connection_id,
@@ -48,7 +49,7 @@ export class TransactionMessageHandler implements IBasicMessageHandler {
         return await this.agentService.sendBasicMessage(msg, connectionId);
         */
         const url = `http://${agentId}:${process.env.AGENT_ADMIN_PORT}/connections/${connectionId}/send-message`;
-        const msg: CreditTransaction<any> =new CreditTransaction<any>({
+        const msg: CreditTransaction<any> = new CreditTransaction<any>({
             state,
             id,
             credentialId,

@@ -1,7 +1,6 @@
 import { Controller, Post, Get, Param, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AgentService } from 'aries-controller/agent/agent.service';
-import { VerifierService } from 'aries-controller/verifier/verifier.service';
+import { AgentService, VerifierService } from 'aries-controller';
 
 /**
  * The pattern here is interesting because we just want to expose some endpoints on this controller that point down services in the common

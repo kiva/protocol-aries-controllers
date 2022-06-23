@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { inspect } from 'util';
-import { ProtocolErrorCode } from 'protocol-common/protocol.errorcode';
+import { ProtocolErrorCode } from 'protocol-common';
 
 /**
  * Test the issuing and verifying of employee credentials for mobile
@@ -14,6 +14,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
     let kivaConnectionId: string;
     let credentialExchangeId: string;
     let presExId: string;
+    const photo = '89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da6364f8ffbf1e000584027fc25b1e2a00000000';
 
     const delayFunc = (ms: number) => {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -73,7 +74,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                 team: 'Engineering',
                 hireDate: '1420070400', // 1/1/2019
                 officeLocation: 'Cloud',
-                'photo~attach': '89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da6364f8ffbf1e000584027fc25b1e2a00000000',
+                'photo~attach': photo,
                 type: 'Intern',
                 endDate: '1605043300',
                 phoneNumber: '+16282185460',
@@ -89,7 +90,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.credential_exchange_id).toBeDefined();
                     credentialExchangeId = res.body.credential_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -102,7 +103,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
             connectionId: kivaConnectionId,
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/verify`)
+            .post('/v2/api/verify')
             .send(data)
             .expect((res) => {
                 try {
@@ -111,7 +112,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.presentation_exchange_id).toBeDefined();
                     presExId = res.body.presentation_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -139,7 +140,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
             connectionId: kivaConnectionId,
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/verify`)
+            .post('/v2/api/verify')
             .send(data)
             .expect((res) => {
                 try {
@@ -148,7 +149,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.presentation_exchange_id).toBeDefined();
                     presExId = res.body.presentation_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -171,7 +172,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
 
     it('Check issuer\'s issued credential records', async () => {
         return request(process.env.KIVA_CONTROLLER_URL)
-            .get(`/v2/api/records`)
+            .get('/v2/api/records')
             .expect(200)
             .expect((res) => {
                 expect(res.body[0].entityData.firstName).toBe('First');
@@ -187,7 +188,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.status).toBe(200);
                     expect(res.body.state).toBe('issued');
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -196,17 +197,17 @@ describe('Full system issue and verify flows for employee credentials', () => {
     it('Revoke Issued credential', async () => {
         await delayFunc(100);
         const data = {
-            credentialExchangeId: credentialExchangeId,
+            credentialExchangeId,
             publish: true,
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/revoke`)
+            .post('/v2/api/revoke')
             .send(data)
             .expect((res) => {
                 try {
                     expect(res.status).toBe(201);
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -221,7 +222,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.status).toBe(200);
                     expect(res.body.state).toBe('revoked');
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -234,7 +235,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
             connectionId: kivaConnectionId,
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/verify`)
+            .post('/v2/api/verify')
             .send(data)
             .expect((res) => {
                 try {
@@ -243,7 +244,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.presentation_exchange_id).toBeDefined();
                     presExId = res.body.presentation_exchange_id;
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
@@ -270,7 +271,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
             publish: true,
         };
         return request(process.env.KIVA_CONTROLLER_URL)
-            .post(`/v2/api/revoke`)
+            .post('/v2/api/revoke')
             .send(data)
             .expect((res) => {
                 try {
@@ -278,7 +279,7 @@ describe('Full system issue and verify flows for employee credentials', () => {
                     expect(res.body.code).toBe(ProtocolErrorCode.AGENT_CALL_FAILED);
                     expect(res.body.details.ex).toBeDefined();
                 } catch (e) {
-                    e.message = e.message + '\nDetails: ' + inspect(res.body);
+                    e.message = `${e.message as string}\nDetails: ${inspect(res.body as string)}`;
                     throw e;
                 }
             });
