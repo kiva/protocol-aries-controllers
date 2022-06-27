@@ -60,36 +60,36 @@ jobs:
             docker-compose -f docker-compose.ci.yml build
             docker-compose -f docker-compose.ci.yml up -d
             docker-compose -f docker-compose.ci.yml logs
-#      - run:
-#          name: Setup integration tests
-#          command: |
-#            cd integration_tests
-#            npm install
-#      - run:
-#          name: Wait for readiness
-#          command: |
-#            sleep 5
-#            ./scripts/healthcheck.sh http://localhost:8081/healthz
-#            sleep 30
-#            ./scripts/healthcheck.sh http://localhost:3011/healthz
-#      - run:
-#          name: Run setup scripts
-#          command: |
-#            if ! ./scripts/prod_setup.sh ; then
-#              echo "Setup failed. Server logs:";
-#              docker-compose -f docker-compose.ci.yml logs;
-#              exit 1;
-#            fi
-#      - run:
-#          name: Running integration tests
-#          command: |
-#            cd integration_tests
-#            if ! npm run test ; then
-#              echo "Tests failed. Server logs:";
-#              cd ..
-#              docker-compose -f docker-compose.ci.yml logs;
-#              exit 1;
-#            fi
+      - run:
+          name: Setup integration tests
+          command: |
+            cd integration_tests
+            npm install
+      - run:
+          name: Wait for readiness
+          command: |
+            sleep 5
+            ./scripts/healthcheck.sh http://localhost:8081/healthz
+            sleep 30
+            ./scripts/healthcheck.sh http://localhost:3011/healthz
+      - run:
+          name: Run setup scripts
+          command: |
+            if ! ./scripts/prod_setup.sh ; then
+              echo "Setup failed. Server logs:";
+              docker-compose -f docker-compose.ci.yml logs;
+              exit 1;
+            fi
+      - run:
+          name: Running integration tests
+          command: |
+            cd integration_tests
+            if ! npm run test ; then
+              echo "Tests failed. Server logs:";
+              cd ..
+              docker-compose -f docker-compose.ci.yml logs;
+              exit 1;
+            fi
 
   protocol-integration-tests:
     machine:
@@ -180,92 +180,98 @@ workflows:
           filters:
               tags:
                   only: /.*/
-#      - protocol-integration-tests:
-#          context:
-#            - integration-test-context
-#          requires:
-#            - integration-test
-#          filters: # only run for semver tagged versions
-#            tags:
-#              only: /.*/
+      - protocol-integration-tests:
+          context:
+            - integration-test-context
+          requires:
+            - integration-test
+          filters: # only run for semver tagged versions
+            tags:
+              only: /.*/
       - docker/publish:
           name: docker/publish-fsp-controller
           requires:
-              - integration-test
-          filters:
+              - protocol-integration-tests
+          filters: # only run for semver tagged versions
             tags:
-              only: /.*/
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
           update-description: true
           docker-context: implementations/fsp
           dockerfile: implementations/fsp/Dockerfile.production
           image: kivaprotocol/fsp-controller
-          tag: 1.0.0-alpha.1,latest
+          tag: << pipeline.git.tag >>,latest
       - docker/publish:
           name: docker/publish-kiva-controller
           requires:
-            - integration-test
-          filters:
+            - protocol-integration-tests
+          filters: # only run for semver tagged versions
             tags:
-              only: /.*/
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
           update-description: true
           docker-context: implementations/kiva
           dockerfile: implementations/kiva/Dockerfile.production
           image: kivaprotocol/kiva-controller
-          tag: 1.0.0-alpha.1,latest
+          tag: << pipeline.git.tag >>,latest
       - docker/publish:
           name: docker/publish-tdc-controller
           requires:
-              - integration-test
-          filters:
+              - protocol-integration-tests
+          filters: # only run for semver tagged versions
             tags:
-              only: /.*/
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
           update-description: true
           docker-context: implementations/tdc
           dockerfile: implementations/tdc/Dockerfile.production
           image: kivaprotocol/tdc-controller
-          tag: 1.0.0-alpha.1,latest
-#      - push-to-dev:
-#          name: push-to-dev-fsp-controller
-#          context:
-#            - continuous-deployment-dev
-#          requires:
-#            - docker/publish-fsp-controller
-#          filters: # only run for semver tagged versions
-#            tags:
-#              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
-#            branches:
-#              ignore: /.*/
-#          tag: << pipeline.git.tag >>
-#          service: fsp-controller
-#          helm-charts: implementations/fsp/helm-config
-#      - push-to-dev:
-#          name: push-to-dev-kiva-controller
-#          context:
-#            - continuous-deployment-dev
-#          requires:
-#            - docker/publish-kiva-controller
-#          filters: # only run for semver tagged versions
-#            tags:
-#              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
-#            branches:
-#              ignore: /.*/
-#          tag: << pipeline.git.tag >>
-#          service: kiva-controller
-#          helm-charts: implementations/kiva/helm-config
-#      - push-to-dev:
-#          name: push-to-dev-tdc-controller
-#          context:
-#            - continuous-deployment-dev
-#          requires:
-#            - docker/publish-tdc-controller
-#          filters: # only run for semver tagged versions
-#            tags:
-#              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
-#            branches:
-#              ignore: /.*/
-#          tag: << pipeline.git.tag >>
-#          service: tdc-controller
-#          helm-charts: implementations/tdc/helm-config
+          tag: << pipeline.git.tag >>,latest
+      - push-to-dev:
+          name: push-to-dev-fsp-controller
+          context:
+            - continuous-deployment-dev
+          requires:
+            - docker/publish-fsp-controller
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          tag: << pipeline.git.tag >>
+          service: fsp-controller
+          helm-charts: implementations/fsp/helm-config
+      - push-to-dev:
+          name: push-to-dev-kiva-controller
+          context:
+            - continuous-deployment-dev
+          requires:
+            - docker/publish-kiva-controller
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          tag: << pipeline.git.tag >>
+          service: kiva-controller
+          helm-charts: implementations/kiva/helm-config
+      - push-to-dev:
+          name: push-to-dev-tdc-controller
+          context:
+            - continuous-deployment-dev
+          requires:
+            - docker/publish-tdc-controller
+          filters: # only run for semver tagged versions
+            tags:
+              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
+            branches:
+              ignore: /.*/
+          tag: << pipeline.git.tag >>
+          service: tdc-controller
+          helm-charts: implementations/tdc/helm-config
 
 orbs:
   node: circleci/node@1.1.6
