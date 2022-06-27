@@ -191,12 +191,10 @@ workflows:
       - docker/publish:
           name: docker/publish-fsp-controller
           requires:
-              - integration-tests
-          filters: # only run for semver tagged versions
-              tags:
-                  only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
-              branches:
-                  ignore: /.*/
+              - integration-test
+          filters:
+            tags:
+              only: /.*/
           update-description: true
           docker-context: implementations/fsp
           dockerfile: implementations/fsp/Dockerfile.production
@@ -205,12 +203,10 @@ workflows:
       - docker/publish:
           name: docker/publish-kiva-controller
           requires:
-            - integration-tests
-          filters: # only run for semver tagged versions
+            - integration-test
+          filters:
             tags:
-              only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
-            branches:
-              ignore: /.*/
+              only: /.*/
           update-description: true
           docker-context: implementations/kiva
           dockerfile: implementations/kiva/Dockerfile.production
@@ -219,12 +215,10 @@ workflows:
       - docker/publish:
           name: docker/publish-tdc-controller
           requires:
-              - integration-tests
-          filters: # only run for semver tagged versions
-              tags:
-                  only: /^([0-9]+)\.([0-9]+)\.([0-9]+)/
-              branches:
-                  ignore: /.*/
+              - integration-test
+          filters:
+            tags:
+              only: /.*/
           update-description: true
           docker-context: implementations/tdc
           dockerfile: implementations/tdc/Dockerfile.production
