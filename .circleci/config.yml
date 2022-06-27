@@ -199,7 +199,7 @@ workflows:
           docker-context: implementations/fsp
           dockerfile: implementations/fsp/Dockerfile.production
           image: kivaprotocol/fsp-controller
-          tag: << pipeline.git.tag >>,latest
+          tag: 1.0.0-alpha.1,latest
       - docker/publish:
           name: docker/publish-kiva-controller
           requires:
@@ -211,7 +211,7 @@ workflows:
           docker-context: implementations/kiva
           dockerfile: implementations/kiva/Dockerfile.production
           image: kivaprotocol/kiva-controller
-          tag: << pipeline.git.tag >>,latest
+          tag: 1.0.0-alpha.1,latest
       - docker/publish:
           name: docker/publish-tdc-controller
           requires:
@@ -223,7 +223,7 @@ workflows:
           docker-context: implementations/tdc
           dockerfile: implementations/tdc/Dockerfile.production
           image: kivaprotocol/tdc-controller
-          tag: << pipeline.git.tag >>,latest
+          tag: 1.0.0-alpha.1,latest
 #      - push-to-dev:
 #          name: push-to-dev-fsp-controller
 #          context:
